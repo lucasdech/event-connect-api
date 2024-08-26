@@ -5,106 +5,149 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <title>Event Connect API</title>
 
     <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #F2E4DC;
+            height: 100vh;
+        }
+
         #canvasPlace {
-            height: 40em;
-            width: 40em;
-            position: absolute;
-            left: 40%;
+            height: 80%;
+            /* border: 2px red solid; */
         }
 
         #canvas {
-            width: 100%;
             height: 100%;
-            display: block;
+            width: 100%;
+            /* filter: invert(); */
         }
 
-        body {
-            background-color: #F2E4DC;
+        h1 {
+            color: #63281A;
         }
+
+        #links {
+            display: flex;
+            margin-top: 2em;
+        }
+
+        .link {
+            background-color: #F35733;
+            margin: 2em;
+            padding: 1em;
+            border-radius: 15px;
+            text-decoration: none;
+            color: white;
+        }
+
     </style>
 
-    <!-- Import Three.js and its modules -->
+    <!-- Import Three.js -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/build/three.min.js"></script>
+
+    <!-- Import OrbitControl -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/controls/OrbitControls.js"></script>
+
+    <!-- Import GLTFLoader -->
     <script src="https://cdn.jsdelivr.net/npm/three@0.132.2/examples/js/loaders/GLTFLoader.js"></script>
+
 </head>
 
+    <body id="body">
 
-<body id="body">
-    <h1>je suis la landing page </h1>
-    <div id="canvasPlace">
-        <canvas id="canvas"></canvas>
-    </div>
+        <h1>Bienvenue sur l'API EventConnect </h1>
 
-    <script>
-        window.onload = () => {
-            const canvasPlace = document.getElementById('canvasPlace');
-            const canvas = document.getElementById('canvas');
+        <section id="links">
 
-            if (canvas && canvasPlace) {
-                canvas.width = canvasPlace.clientWidth;
-                canvas.height = canvasPlace.clientHeight;
+            <div >
+                <a class="link" href="#">Admin</a>
+            </div>
 
-                const scene = new THREE.Scene();
-                const camera = new THREE.PerspectiveCamera(70, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
-                camera.position.set(0, 0, 3.5);
+            <div >
+                <a class="link" href="#">Documentation</a>
+            </div>
 
-                const renderer = new THREE.WebGLRenderer({
-                    canvas,
-                    alpha: true
-                });
-                renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-                renderer.setClearColor(0x000000, 0);
+        </section>
+     
 
-                // Create OrbitControls instance
-                const controls = new THREE.OrbitControls(camera, renderer.domElement);
-                controls.enableDamping = true;
-                controls.dampingFactor = 0.5;
-                controls.enableZoom = true;
 
-                // Create GLTFLoader instance
-                const loader = new THREE.GLTFLoader();
+        <div id="canvasPlace">
+            <canvas id="canvas"></canvas>
+        </div>
 
-                let logoModel = null;
-                let titleModel = null;
+        <script>
+            window.onload = () => {
+                const canvasPlace = document.getElementById('canvasPlace');
+                const canvas = document.getElementById('canvas');
 
-                loader.load('/logo/logoFini.glb', function (gltf) {
-                    logoModel = gltf.scene;
-                    scene.add(logoModel);
-                }, undefined, function (error) {
-                    console.error(error);
-                });
+                if (canvas && canvasPlace) {
+                    canvas.width = canvasPlace.clientWidth;
+                    canvas.height = canvasPlace.clientHeight;
 
-                loader.load('/logo/titre.glb', function (gltf) {
-                    titleModel = gltf.scene;
-                    scene.add(titleModel);
+                    const scene = new THREE.Scene();
+                    const camera = new THREE.PerspectiveCamera(70, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+                    camera.position.set(0, 0, 3.5);
 
-                    titleModel.rotation.y = 4.75;
-                    titleModel.position.set(0, -0.3, 1.3);
-                    titleModel.scale.set(0.7, 0.7, 0.7);
-                }, undefined, function (error) {
-                    console.error(error);
-                });
-
-                function animate() {
-                    requestAnimationFrame(animate);
+                    const renderer = new THREE.WebGLRenderer({
+                        canvas,
+                        alpha: true
+                    });
                     renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+                    renderer.setClearColor(0x000000, 0);
 
-                    if (logoModel) {
-                        logoModel.rotation.y += 0.01;
+                    // Create OrbitControls instance
+                    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+                    controls.enableDamping = true;
+                    controls.dampingFactor = 0.5;
+                    controls.enableZoom = true;
+
+                    // Create GLTFLoader instance
+                    const loader = new THREE.GLTFLoader();
+
+                    let logoModel = null;
+                    let titleModel = null;
+
+                    loader.load('/logo/logoFini.glb', function(gltf) {
+                        logoModel = gltf.scene;
+                        scene.add(logoModel);
+                    }, undefined, function(error) {
+                        console.error(error);
+                    });
+
+                    loader.load('/logo/titre.glb', function(gltf) {
+                        titleModel = gltf.scene;
+                        scene.add(titleModel);
+
+                        titleModel.rotation.y = 4.75;
+                        titleModel.position.set(0, -0.3, 1.3);
+                        titleModel.scale.set(0.45, 0.45, 0.45);
+                    }, undefined, function(error) {
+                        console.error(error);
+                    });
+
+                    function animate() {
+                        requestAnimationFrame(animate);
+                        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+
+                        if (logoModel) {
+                            logoModel.rotation.y += 0.01;
+                        }
+
+                        controls.update();
+                        renderer.render(scene, camera);
                     }
-
-                    controls.update();
-                    renderer.render(scene, camera);
+                    animate();
+                } else {
+                    console.error("Canvas or CanvasPlace element not found");
                 }
-                animate();
-            } else {
-                console.error("Canvas or CanvasPlace element not found");
             }
-        }
-    </script>
-</body>
+        </script>
+        
+    </body>
+
 </html>
