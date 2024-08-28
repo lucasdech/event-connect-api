@@ -21,7 +21,7 @@ return new class extends Migration
             $table->dateTime('starting_at');
             $table->string('location');
             $table->timestamps();
-            $table->string('deleted_at')->default('active');
+            $table->softDeletes();
         });
     }
 

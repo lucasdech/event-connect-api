@@ -31,6 +31,8 @@ class User extends Authenticatable
         'deleted_at',
     ];
 
+    protected $date = ['deleted_at'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -54,17 +56,17 @@ class User extends Authenticatable
         ];
     }
 
-    public function event()
+    public function event() : HasMany
     {
         return $this->hasMany(Event::class);
     }
 
-    public function message()
+    public function message() : HasMany
     {
         return $this->hasMany(Message::class);
     }
 
-    public function participant()
+    public function participant() : BelongsTo
     {
         return $this->belongsTo(participant::class);
     }

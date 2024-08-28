@@ -23,8 +23,9 @@ class Event extends Model
         'description',
         'starting_at',
         'location',
-        'deleted_at',
     ];
+
+    protected $date = ['deleted_at'];
 
     public function user()
     {
