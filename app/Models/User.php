@@ -9,10 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Filament\Models\Contracts\FilamentUser;
-use Filament\Panel;
 
-class User extends Authenticatable implements FilamentUser
+class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -30,11 +28,6 @@ class User extends Authenticatable implements FilamentUser
     ];
 
     protected $date = ['deleted_at'];
-
-    public function canAccessPanel(Panel $panel): bool
-    {
-        return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
-    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -73,4 +66,5 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->belongsTo(participant::class);
     }
+
 }
