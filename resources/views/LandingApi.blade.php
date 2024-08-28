@@ -67,7 +67,6 @@
 
     <section id="links">
         <a class="link" href="#">Documentation</a>
-        <a class="link" href="#">Admin</a>
     </section>
 
     <div id="canvasPlace">
