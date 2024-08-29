@@ -4,13 +4,15 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasFactory, Notifiable;
 
@@ -52,19 +54,24 @@ class User extends Authenticatable
         ];
     }
 
-    public function event() : HasMany
+    public function event(): HasMany
     {
         return $this->hasMany(Event::class);
     }
 
-    public function message() : HasMany
+    public function message(): HasMany
     {
         return $this->hasMany(Message::class);
     }
 
-    public function participant() : BelongsTo
+    public function participant(): BelongsTo
     {
         return $this->belongsTo(participant::class);
     }
 
+    // Code to use Filament in prod
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return str_ends_with($this->email, 'https://eventconnectapi.projets.p8.garage404.com/') && $this->hasVerifiedEmail();
+    }
 }
