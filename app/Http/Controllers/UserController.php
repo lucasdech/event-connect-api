@@ -17,11 +17,12 @@ class UserController extends Controller
         return response()->json($users, 201);
     }
 
-    public function store(Request $request)
+    public function store(Request $request,User $user)
     {
+        
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'profile_picture' => 'required|image|max:1024', // Max 1MB
+            'profile_picture' => 'nullable|image|max:1024', // Max 1MB
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
@@ -29,7 +30,10 @@ class UserController extends Controller
         $validated['password'] = Hash::make($validated['password']);
 
         if ($request->hasFile('profile_picture')) {
-            $path = $request->file('profile_picture')->store('profile_picture', 'public');
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
             $validated['profile_picture'] = $path;
         }
 
@@ -40,11 +44,14 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
+
+        // dd($request);
+
         $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'profile_picture' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users' . $user->id,
-            'password' => 'required|string|min:8',
+            'name' => 'sometimes|string|max:255',
+            'profile_picture' => 'sometimes|image|max:1024', // Max 1MB
+            'email' => 'sometimes|string|email|max:255|unique:users',
+            'password' => 'sometimes|string|min:8',
         ]);
 
         if (isset($validated['password'])) {
@@ -52,7 +59,6 @@ class UserController extends Controller
         }
 
         if ($request->hasFile('profile_picture')) {
-            // Delete old profile_picture if exists
             if ($user->profile_picture) {
                 Storage::disk('public')->delete($user->profile_picture);
             }
@@ -62,7 +68,7 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return response()->json($user);
+        return response()->json($user, 201);
     }
 
 

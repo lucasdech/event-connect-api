@@ -17,12 +17,6 @@ class EventUserController extends Controller
     public function show(EventUser $EventUser)
     {
         $participations = EventUser::where('user_id', 14)->get(); //le 4 c'est le users ID, il fautdrait quil corresponde a l'id de luser connecter apres ca serait cool !
-        
-        // echo("<pre>");
-        // var_dump($participations[0]);
-        // echo("</pre>");
-        // die;
-
         return response()->json($participations);
     }
 

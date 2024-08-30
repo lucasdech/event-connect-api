@@ -21,11 +21,12 @@ class EventController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'starting_point' => 'required|string',
-            'ending_point' => 'required|string',
+            'title' => 'required|string',
+            'is_private' => 'required|boolean',
+            'password' => 'nulable|string',
+            'descripton' => 'required|text',
             'starting_at' => 'required|date',
-            'available_seats' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
+            'location' => 'required|string',
         ]);
 
         $event = $request->event()->event()->create($validated);
