@@ -37,8 +37,8 @@ class Event extends Model
         return $this->hasMany(Message::class);
     }
 
-    public function participant()
+    public function eventUser()
     {
-        return $this->belongsTo(participant::class);
+        return $this->belongsTo(EventUser::class);
     }
 }

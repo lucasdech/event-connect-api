@@ -29,8 +29,8 @@ class MessageResource extends Resource
     {
         return $table
             ->columns([
-                TextColumn::make('users.name'),
-                TextColumn::make('events.title'),
+                TextColumn::make('user.name'),
+                TextColumn::make('event.title'),
                 TextColumn::make('content'),
                 TextColumn::make('created_at')->sortable(),
                 TextColumn::make('updated_at'),

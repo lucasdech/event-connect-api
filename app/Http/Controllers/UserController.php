@@ -21,17 +21,17 @@ class UserController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'profile_picture' => 'required|string|max:255',
+            'profile_picture' => 'required|image|max:1024', // Max 1MB
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
 
-        // if ($request->hasFile('profil')) {
-        //     $path = $request->file('avatar')->store('avatars', 'public');
-        //     $validated['avatar'] = $path;
-        // }
+        if ($request->hasFile('profile_picture')) {
+            $path = $request->file('profile_picture')->store('profile_picture', 'public');
+            $validated['profile_picture'] = $path;
+        }
 
         $user = User::create($validated);
 
@@ -51,14 +51,14 @@ class UserController extends Controller
             $validated['password'] = Hash::make($validated['password']);
         }
 
-        // if ($request->hasFile('avatar')) {
-        //     // Delete old avatar if exists
-        //     if ($user->avatar) {
-        //         Storage::disk('public')->delete($user->avatar);
-        //     }
-        //     $path = $request->file('avatar')->store('avatars', 'public');
-        //     $validated['avatar'] = $path;
-        // }
+        if ($request->hasFile('profile_picture')) {
+            // Delete old profile_picture if exists
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
+            }
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $validated['profile_picture'] = $path;
+        }
 
         $user->update($validated);
 

@@ -65,9 +65,9 @@ class User extends Authenticatable
         return $this->hasMany(Message::class);
     }
 
-    public function participant()
+    public function eventUser()
     {
-        return $this->belongsTo(participant::class);
+        return $this->belongsTo(EventUser::class);
     }
 
     // Code to use Filament in prod

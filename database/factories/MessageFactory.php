@@ -17,9 +17,9 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'users_id' => fake()->numberBetween(1, 20),
+            'user_id' => fake()->numberBetween(1, 20),
             'content' => fake()->sentence(),
-            'events_id' => fake()->numberBetween(1, 10),
+            'event_id' => fake()->numberBetween(1, 10),
         ];
     }
 }

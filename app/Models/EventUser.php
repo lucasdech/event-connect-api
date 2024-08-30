@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Participant extends Model
+class EventUser extends Model
 {
     use HasFactory;
 
-
-    public function userID()
+    public function user_id()
     {
         return $this->hasMany(User::class);
     }
 
-    public function eventID()
+    public function event_id()
     {
         return $this->hasMany(Event::class);
     }

@@ -24,7 +24,7 @@ class EventFactory extends Factory
     public function definition(): array
     {
         return [
-            'users_id' => fake()->numberBetween(1, 20),
+            'user_id' => fake()->numberBetween(1, 20),
             'title' => fake()->word(),
             'is_private' => fake()->numberBetween(0, 1),
             'password' => static::$password ??= Hash::make('password'),

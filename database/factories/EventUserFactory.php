@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Participant>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\EventUser>
  */
-class ParticipantFactory extends Factory
+class EventUserFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,8 +17,8 @@ class ParticipantFactory extends Factory
     public function definition(): array
     {
         return [
-            'users_id' => fake()->numberBetween(1, 20),
-            'events_id' => fake()->numberBetween(1, 10),
+            'user_id' => fake()->numberBetween(1, 20),
+            'event_id' => fake()->numberBetween(1, 10),
         ];
     }
 }
