@@ -5,13 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
 {
 
-    public function index(Request $request)
+    public function index()
     {
         $event = Event::all();
         return response()->json($event, 201);
@@ -29,7 +27,7 @@ class EventController extends Controller
             'location' => 'required|string',
         ]);
 
-        $event = $request->event()->event()->create($validated);
+        $event = $request->event()->create($validated);
 
         return response()->json($event, 201);
     }
@@ -38,11 +36,12 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
         $validated = $request->validate([
-            'starting_point' => 'sometimes|string',
-            'ending_point' => 'sometimes|string',
+            'title' => 'sometimes|string',
+            'is_private' => 'sometimes|boolean',
+            'password' => 'sometimes|nulable|string',
+            'descripton' => 'sometimes|text',
             'starting_at' => 'sometimes|date',
-            'available_seats' => 'sometimes|integer|min:1',
-            'price' => 'sometimes|numeric|min:0',
+            'location' => 'sometimes|string',
         ]);
 
         $event->update($validated);

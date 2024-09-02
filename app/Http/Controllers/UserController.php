@@ -45,8 +45,6 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
 
-        // dd($request);
-
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
             'profile_picture' => 'sometimes|image|max:1024', // Max 1MB
