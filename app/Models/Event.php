@@ -40,6 +40,6 @@ class Event extends Model
 
     public function eventUser()
     {
-        return $this->belongsTo(EventUser::class);
+        return $this->belongsToMany(EventUser::class);
     }
 }

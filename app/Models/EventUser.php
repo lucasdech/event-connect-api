@@ -9,13 +9,17 @@ class EventUser extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'event_id',
+        'user_id'
+    ];
     public function user_id()
     {
-        return $this->hasMany(User::class);
+        return $this->hasOne(User::class);
     }
 
-    public function event_id()
+    public function event()
     {
-        return $this->hasMany(Event::class);
+        return $this->hasOne(Event::class, 'id', 'event_id');
     }
 }

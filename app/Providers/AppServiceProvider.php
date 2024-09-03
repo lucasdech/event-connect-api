@@ -22,18 +22,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        Auth::extend('jwt', function (Application $app, string $name, array $config) {
-            $userProvider = Auth::createUserProvider($config['provider']);
-        
-            if (!$userProvider) {
-                // Handle the null case, e.g., throw an exception or provide a default UserProvider
-                throw new \Exception("User provider cannot be null.");
-            }
-        
-            return new JwtGuard(
-                $userProvider,
-                $app->make('request')
-            );
-        });
     }
 }
