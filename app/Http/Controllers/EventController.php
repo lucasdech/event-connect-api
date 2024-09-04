@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class EventController extends Controller
 {
@@ -21,15 +22,19 @@ class EventController extends Controller
         $validated = $request->validate([
             'title' => 'required|string',
             'is_private' => 'required|boolean',
-            'password' => 'nulable|string',
-            'descripton' => 'required|text',
+            'password' => 'nullable|string',
+            'description' => 'required|string',
             'starting_at' => 'required|date',
             'location' => 'required|string',
         ]);
 
-        $event = $request->event()->create($validated);
+        $validated['password'] = Hash::make($validated['password']);
 
-        return response()->json($event, 201);
+        $validated['user_id'] = auth('api')->user()->id;
+
+        $event = Event::create($validated);
+
+        return $this->jsonResponse('success', 'Event crated', ['users' => $event], 200) ;
     }
 
 

@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Storage;
 
 class UserRepository
 {
-    public function create(array $attributes)
+
+    public function create()
     {
 
     }
@@ -21,5 +22,10 @@ class UserRepository
     public function forceDelete()
     {
 
+    }
+
+    public function Validation()
+    {
+        
     }
 }

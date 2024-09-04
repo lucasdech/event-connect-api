@@ -15,33 +15,37 @@ class UserController extends Controller
     public function index(User $users)
     {
         $users = User::all();
-        return response()->json($users, 201);
+        return $this->jsonResponse('success', 'All users list', ['users' => $users], 200) ;
     }
 
 
-    public function login(Request $request,User $user)
+    public function login(Request $request)
     {
         $validated = $request->validate([
-            'email' => 'required|string|email|max:255|unique:users',
+            'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:8',
         ]);
         if (! $token = auth('api')->attempt($validated)) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return response()->json($token, 201);
+        $user = User::where('email','=', $validated['email']);
+        
+        return $this->jsonResponse('success', 'User Login', ['user' => $user, 'token' => $token], 201);
     }
+
 
     public function store(Request $request,User $user)
     {
-        
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'profile_picture' => 'nullable|image|max:1024', // Max 1MB
+            'profile_picture' => 'nullable|image|max:2048', // Max 2MB
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
         ]);
 
+        $password = $validated['password'];
         $validated['password'] = Hash::make($validated['password']);
 
 
@@ -54,20 +58,21 @@ class UserController extends Controller
         }
 
         $user = User::create($validated);
-        $token = auth('web')->attempt(['email'=>$validated['email'], 'password'=>$validated['password']]);
-        if (!$token ) {
+        if (!$token = auth('api')->attempt(['email'=>$validated['email'], 'password'=> $password]) ) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-        dd($token);
-        return response()->json([$user, $token], 201);
+        return $this->jsonResponse('success', 'User created', ['user' => $user, 'token' => $token], 201) ;
     }
+
 
     public function update(Request $request, User $user)
     {
 
+        //appeler mon repository repository->validator($request->data)
+
         $validated = $request->validate([
             'name' => 'sometimes|string|max:255',
-            'profile_picture' => 'sometimes|image|max:1024',
+            'profile_picture' => 'sometimes|image|max:2048',
             'email' => 'sometimes|string|email|max:255|unique:users',
             'password' => 'sometimes|string|min:8',
         ]);
@@ -86,20 +91,20 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        return response()->json($user, 201);
+        return $this->jsonResponse('success', 'User Updated', ['user' => $user], 201) ;
     }
 
 
     public function show(int $id)
     {
         $user = User::findOrFail($id);
-        return response()->json($user);
+        return $this->jsonResponse('success', 'User details', ['user' => $user], 201) ;
     }
-
+   
 
     public function destroy(User $user)
     {
         $user->delete();
-        return response()->json(null, 204);
+        return $this->jsonResponse('success', 'User created', ['user' => $user], 204) ;
     }
 }

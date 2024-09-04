@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Event;
 use App\Models\EventUser;
 use Illuminate\Http\Request;
 
 class EventUserController extends Controller
 {
+
     public function index(EventUser $EventUser)
     {
         $EventUser = EventUser::all();
@@ -17,31 +17,31 @@ class EventUserController extends Controller
 
     public function show()
     {
-        // $user = auth()->user;
-        $participations = EventUser::where('user_id', 14)
-            ->with(['event'])
-            ->get(); //le 14 c'est le users ID, il fautdrait quil corresponde a l'id de luser connecter apres ca serait cool !
-        // $event_user = [];
+        $user_id = auth('api')->user()->id;
 
-        // foreach ($participations as $value) {
-        //     $events_id = $value->event_id;
-        //     $one_event_user = Event::where('id', $events_id)->get();
-        //     array_push($event_user, $one_event_user);
-        // }    
+        $participations = EventUser::where('user_id', $user_id)
+            ->with(['event'])
+            ->get();
 
         return response()->json($participations);
     }
 
     public function store(Request $request)
     {
-        dd($request);
+        $validated = $request->validate([
+           'event_id' => 'required|int'
+        ]);
 
-        return response()->json($request, 201);
+        $validated['user_id'] = auth('api')->user()->id;
+
+        $EventUser = EventUser::create($validated);
+
+        return $this->jsonResponse('success', 'Eventuser crated', ['EventUser' => $EventUser], 200) ;
     }
 
     public function destroy(EventUser $EventUser)
     {
         $EventUser->delete();
-        return response()->json(null, 204);
+        return $this->jsonResponse('success', 'Eventuser deleted', ['users' => $EventUser], 204) ;
     }
 }

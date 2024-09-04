@@ -18,11 +18,18 @@ class MessageController extends Controller
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'content' => 'required|string'
-        ]);
 
-        $message = $request->message()->create($validated);
+        
+        $validated = $request->validate([
+            'content' => 'required|string',
+            'event_id' => 'required|int'
+        ]);
+        
+        $validated['user_id'] = auth('api')->user()->id;
+
+        //verifire le content du message par rapport au model Forbidden word qui est administranble sur filament 
+
+        $message = Message::create($validated);
 
         return response()->json($message, 201);
     }

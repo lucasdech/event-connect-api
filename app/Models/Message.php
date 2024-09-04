@@ -18,7 +18,7 @@ class Message extends Model
     protected $fillable = [
         'user_id',
         'content',
-        'events_id',
+        'event_id',
     ];
 
     protected $date = ['deleted_at'];
