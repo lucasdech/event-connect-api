@@ -26,7 +26,6 @@ Route::group([
     Route::put('/user/{user}', [UserController::class, 'update']);
     Route::delete('/user/{user}', [UserController::class, 'destroy']);
 
-
     Route::post('/event', [EventController::class, 'store']);
     Route::put('/event/{event}', [EventController::class, 'update']);
     Route::delete('/event/{event}', [EventController::class, 'destroy']);

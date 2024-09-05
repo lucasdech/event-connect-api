@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -11,6 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    
+
+    public function __construct(private UserRepository $userRepository){}
 
     public function index(User $users)
     {
@@ -37,16 +41,9 @@ class UserController extends Controller
 
     public function store(Request $request,User $user)
     {
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'profile_picture' => 'nullable|image|max:2048', // Max 2MB
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-        ]);
-
-        $password = $validated['password'];
-        $validated['password'] = Hash::make($validated['password']);
+        $inputs = $request->all();
+        $password = $inputs['password'];
+        $inputs['password'] = Hash::make($inputs['password']);
 
 
         if ($request->hasFile('profile_picture')) {
@@ -54,11 +51,11 @@ class UserController extends Controller
                 Storage::disk('public')->delete($user->profile_picture);
             }
             $path = $request->file('profile_picture')->store('profile_pictures', 'public');
-            $validated['profile_picture'] = $path;
+            $inputs['profile_picture'] = $path;
         }
 
-        $user = User::create($validated);
-        if (!$token = auth('api')->attempt(['email'=>$validated['email'], 'password'=> $password]) ) {
+        $user = $this->userRepository->create($inputs);
+        if (!$token = auth('api')->attempt(['email'=>$inputs['email'], 'password'=> $password]) ) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         return $this->jsonResponse('success', 'User created', ['user' => $user, 'token' => $token], 201) ;

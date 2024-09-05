@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Repositories\EventRepository;
+use App\Repositories\EventRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,7 +19,7 @@ class EventController extends Controller
     }
 
 
-    public function store(Request $request, EventRepository $eventRepository)
+    public function store(Request $request, EventRepositoryInterface $eventRepository)
     {
         $validated = $request->validate([
             'title' => 'required|string',
@@ -41,7 +42,7 @@ class EventController extends Controller
     }
 
 
-    public function update(Request $request, Event $event, EventRepository $eventRepository)
+    public function update(Request $request, Event $event, EventRepositoryInterface $eventRepository)
     {
         $validated = $request->validate([
             'title' => 'sometimes|string',
@@ -54,7 +55,7 @@ class EventController extends Controller
 
         // $event->update($validated);
 
-       $event = $eventRepository->update($validated, $event);
+       $event = $eventRepository->update($validated, $event->id);
 
         return response()->json($event);
     }

@@ -11,7 +11,6 @@ use Filament\Tables;
 use Filament\Tables\Table;
 
 
-
 class EventResource extends Resource
 {
     protected static ?string $model = Event::class;
