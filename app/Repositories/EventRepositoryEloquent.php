@@ -4,16 +4,16 @@ namespace App\Repositories;
 
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
-use App\Repositories\UserRepository;
-use App\Models\User;
-use App\Validators\UserValidator;
+use App\Repositories\EventRepository;
+use App\Models\Event;
+use App\Validators\EventValidator;
 
 /**
- * Class UserRepositoryEloquent.
+ * Class EventRepositoryEloquent.
  *
  * @package namespace App\Repositories;
  */
-class UserRepositoryEloquent extends BaseRepository implements UserRepository
+class EventRepositoryEloquent extends BaseRepository implements EventRepository
 {
     /**
      * Specify Model class name
@@ -22,16 +22,15 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
      */
     public function model()
     {
-        return User::class;
+        return Event::class;
     }
-
 
     /**
      * Use Validator
      */
     public function validator()
     {
-        return UserValidator::class;
+        return EventValidator::class;
     }
 
     /**
@@ -41,5 +40,4 @@ class UserRepositoryEloquent extends BaseRepository implements UserRepository
     {
         $this->pushCriteria(app(RequestCriteria::class));
     }
-    
 }

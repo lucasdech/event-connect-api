@@ -5,69 +5,44 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Repositories\EventRepository;
-use App\Repositories\EventRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class EventController extends Controller
 {
 
+    public function __construct(private EventRepository $eventRepository){}
+
     public function index()
     {
         $event = Event::all();
-        return response()->json($event, 201);
+        return $this->jsonResponse('success', 'Event List', ['event' => $event], 200);
     }
 
-
-    public function store(Request $request, EventRepositoryInterface $eventRepository)
+    public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string',
-            'is_private' => 'required|boolean',
-            'password' => 'nullable|string',
-            'description' => 'required|string',
-            'starting_at' => 'required|date',
-            'location' => 'required|string',
-        ]);
-
-        $validated['password'] = Hash::make($validated['password']);
-
-        $validated['user_id'] = auth('api')->user()->id;
-
-        // $event = Event::create($validated);
-
-        $event = $eventRepository->create($validated);
-
-        return $this->jsonResponse('success', 'Event created', ['event' => $event], 200) ;
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+        $input['user_id'] = auth('api')->user()->id;
+        $event = $this->eventRepository->create($input);
+        return $this->jsonResponse('success', 'Event created', ['event' => $event], 201);
     }
 
-
-    public function update(Request $request, Event $event, EventRepositoryInterface $eventRepository)
+    public function update(Request $request, Event $event)
     {
-        $validated = $request->validate([
-            'title' => 'sometimes|string',
-            'is_private' => 'sometimes|boolean',
-            'password' => 'sometimes|nulable|string',
-            'descripton' => 'sometimes|text',
-            'starting_at' => 'sometimes|date',
-            'location' => 'sometimes|string',
-        ]);
-
-        // $event->update($validated);
-
-       $event = $eventRepository->update($validated, $event->id);
-
-        return response()->json($event);
+        $input = $request->all();
+        $event = $this->eventRepository->update($input, $event->id);
+        return $this->jsonResponse('success', 'Event Updated', ['event' => $event], 201);
     }
 
     public function show(Event $event)
     {
-        return response()->json($event);
+        return $this->jsonResponse('success', 'Event Details', ['event' => $event], 201);
     }
 
     public function destroy(Event $event)
     {
         $event->delete();
-        return response()->json(null, 204);
+        return $this->jsonResponse('success', 'Event Deleted', ['event' => $event], 201);
     }
 }

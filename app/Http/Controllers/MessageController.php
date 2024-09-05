@@ -4,56 +4,49 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Message;
+use App\Repositories\MessageRepository;
 use Illuminate\Http\Request;
 
 
 class MessageController extends Controller
 {
+
+    public function __construct(private MessageRepository $messsageRepository){}
+
     public function index()
     {
         $message = Message::all();
-        return response()->json($message, 201);
-    }
+        return $this->jsonResponse('success', 'All message list', ['messages' => $message], 200) ;
 
+    }
 
     public function store(Request $request)
     {
+        $inputs = $request->all();
+        $inputs['user_id'] = auth('api')->user()->id;
+        $message = $this->messsageRepository->create($inputs);
+        return $this->jsonResponse('success', 'Created Mesage ', ['message' => $message], 200) ;
 
-        
-        $validated = $request->validate([
-            'content' => 'required|string',
-            'event_id' => 'required|int'
-        ]);
-        
-        $validated['user_id'] = auth('api')->user()->id;
-
-        //verifire le content du message par rapport au model Forbidden word qui est administranble sur filament 
-
-        $message = Message::create($validated);
-
-        return response()->json($message, 201);
     }
-
 
     public function update(Request $request, Message $message)
     {
-        $validated = $request->validate([
-            'content' => 'sometimes|string'
-        ]);
+        $inputs = $request->all();
+        $message = $this->messsageRepository->update($inputs, $message->id);
+        return $this->jsonResponse('success', 'Message Updated', ['message' => $message], 200) ;
 
-        $message->update($validated);
-
-        return response()->json($message);
     }
 
     public function show(Message $message)
     {
-        return response()->json($message);
+        return $this->jsonResponse('success', 'Details Message', ['message' => $message], 200) ;
+
     }
 
     public function destroy(Message $message)
     {
         $message->delete();
-        return response()->json(null, 204);
+        return $this->jsonResponse('success', 'Message deleted', ['message' => $message], 200) ;
+
     }
 }

@@ -20,15 +20,19 @@ class UserValidator extends LaravelValidator
     {
         parent::__construct($validator);
         $this->nsfwRule = $nsfwRule;
-        dd($nsfwRule);
-
     }
+    
     protected $rules = [
         ValidatorInterface::RULE_CREATE => [
             // 'profile_picture' => [$this->nsfwRule],
             'email' => ['required','string','email','max:255','unique:users'],
-            'password' => 'max:8',
+            'password' => 'min:8',
         ],
-        ValidatorInterface::RULE_UPDATE => [],
+        ValidatorInterface::RULE_UPDATE => [
+            'name' => ['sometimes','string','max:255'],
+            'profile_picture' => ['sometimes','image','max:2048'],
+            'email' => ['sometimes','string','email','max:255','unique:users'],
+            'password' => ['sometimes','string','min:8'],
+        ],
     ];
 }

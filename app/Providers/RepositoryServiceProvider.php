@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Repositories\EventRepository;
-use App\Repositories\EventRepositoryInterface;
+use App\Repositories\EventRepositoryEloquent;
+use App\Repositories\EventUserRepository;
+use App\Repositories\EventUserRepositoryEloquent;
+use App\Repositories\MessageRepository;
+use App\Repositories\MessageRepositoryEloquent;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryEloquent;
 use Illuminate\Support\ServiceProvider;
@@ -24,5 +28,8 @@ class RepositoryServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->app->bind(UserRepository::class, UserRepositoryEloquent::class);
+        $this->app->bind(EventRepository::class, EventRepositoryEloquent::class);
+        $this->app->bind(MessageRepository::class, MessageRepositoryEloquent::class);
+        $this->app->bind(EventUserRepository::class, EventUserRepositoryEloquent::class);
     }
 }
