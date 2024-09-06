@@ -6,11 +6,11 @@ use \Prettus\Validator\Contracts\ValidatorInterface;
 use \Prettus\Validator\LaravelValidator;
 
 /**
- * Class EventUserValidator.
+ * Class ForbiddenWordValidator.
  *
  * @package namespace App\Validators;
  */
-class EventUserValidator extends LaravelValidator
+class ForbiddenWordValidator extends LaravelValidator
 {
     /**
      * Validation Rules
@@ -18,9 +18,7 @@ class EventUserValidator extends LaravelValidator
      * @var array
      */
     protected $rules = [
-        ValidatorInterface::RULE_CREATE => [
-             'event_id' => ['required','int','unique'],
-        ],
+        ValidatorInterface::RULE_CREATE => [],
         ValidatorInterface::RULE_UPDATE => [],
     ];
 }
