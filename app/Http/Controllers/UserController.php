@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function index(User $users)
     {
-        $users = User::all();
+        $users = User::all()->where('role', '=', 'user');
         return $this->jsonResponse('success', 'All users list', ['users' => $users], 200);
     }
 

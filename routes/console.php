@@ -12,4 +12,5 @@ function schedule(Schedule $schedule)
 {
     $schedule->command('inspire')->hourly();
     $schedule->command('app:remove-expired-tokens')->daily();
+    $schedule->command('telescope:prune')->daily();
 }

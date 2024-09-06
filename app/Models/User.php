@@ -93,7 +93,6 @@ class User extends Authenticatable implements JWTSubject, FilamentUser
         return $this->role === 'admin';
     }
 
-    // Rest omitted for brevity
     // FOR JWT
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
