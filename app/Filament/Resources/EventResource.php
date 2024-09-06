@@ -40,7 +40,6 @@ class EventResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->sortable(),
                 Tables\Columns\TextColumn::make('updated_at'),
                 Tables\Columns\TextColumn::make('deleted_at'),
-                
             ])
             ->filters([
                 //

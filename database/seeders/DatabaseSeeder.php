@@ -6,7 +6,7 @@ use App\Models\User;
 use App\Models\Event;
 use App\Models\Message;
 use App\Models\EventUser;
-
+use App\Models\ForbiddenWord;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         Event::factory(10)->create();
         Message::factory(10)->create();
         EventUser::factory(30)->create();
+        ForbiddenWord::create(['word'=>'merde']);
     }
 }

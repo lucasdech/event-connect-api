@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, FilamentUser
 //  implements FilamentUser
 {
     use HasFactory, Notifiable, SoftDeletes;
@@ -29,6 +29,7 @@ class User extends Authenticatable implements JWTSubject
         'profile_picture',
         'email',
         'password',
+        'role',
         'deleted_at',
     ];
 
@@ -81,6 +82,16 @@ class User extends Authenticatable implements JWTSubject
     //          return str_ends_with($this->email, '@gmail.com') && $this->hasVerifiedEmail();
     //     }
     // }
+
+    /**
+     * Determine if the user can access the Filament panel.
+     *
+     * @return bool
+     */
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $this->role === 'admin';
+    }
 
     // Rest omitted for brevity
     // FOR JWT

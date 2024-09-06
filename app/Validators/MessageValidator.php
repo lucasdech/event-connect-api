@@ -3,6 +3,7 @@
 namespace App\Validators;
 
 use App\Rules\ChatRule;
+use App\Rules\ForbiddenWordRule;
 use Illuminate\Contracts\Validation\Factory;
 use \Prettus\Validator\Contracts\ValidatorInterface;
 use \Prettus\Validator\LaravelValidator;
@@ -15,11 +16,9 @@ use \Prettus\Validator\LaravelValidator;
 class MessageValidator extends LaravelValidator
 {
     
-    protected $chatRule;
-    public function __construct(Factory $validator, ChatRule $chatRule)
+    public function __construct(Factory $validator, ForbiddenWordRule $forbiddenWordRule)
     {
         parent::__construct($validator);
-        $this->chatRule = $chatRule;
         /**
          * Validation Rules
          *
@@ -27,7 +26,7 @@ class MessageValidator extends LaravelValidator
          */
         $this->rules = [
             ValidatorInterface::RULE_CREATE => [
-                'content' => [ 'required','string', $chatRule],
+                'content' => [ 'required','string', $forbiddenWordRule],
                 'event_id' => ['required','int'],
             ],
             ValidatorInterface::RULE_UPDATE => [
@@ -35,5 +34,11 @@ class MessageValidator extends LaravelValidator
             ],
         ];
     }
+
+    protected $messages = [
+        'required' => "The :attribute field is required",
+        'string' => "The :attribute must be string",
+        'int' => "The :attribute must be int",
+    ];
     
 }
