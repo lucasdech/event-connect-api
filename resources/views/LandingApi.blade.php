@@ -64,10 +64,9 @@
 
 <body id="body">
     <h1>Bienvenue sur l'API EventConnect</h1>
+    <p>salut</p>
 
     <section id="links">
-        <a class="link" href="#">Documentation</a>
-        <a class="link" href="#">Documentation</a>
         <a class="link" href="#">Documentation</a>
         <a class="link" href="#">Documentation</a>
     </section>
