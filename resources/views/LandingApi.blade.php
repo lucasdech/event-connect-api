@@ -64,7 +64,6 @@
 
 <body id="body">
     <h1>Bienvenue sur l'API EventConnect</h1>
-    <h2>le test de la clef github sur runcloud<h2>
 
     <section id="links">
         <a class="link" href="#">Documentation</a>
