@@ -15,6 +15,19 @@ class UserController extends Controller
 
     public function __construct(private UserRepository $userRepository) {}
 
+    /**
+     * @OA\Get(
+     *     path="/api/users",
+     *     summary="Get all users",
+     *     tags={"User"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="A list of users",
+     *         @OA\JsonContent(type="array", @OA\Items(ref="#/components/schemas/User"))
+     *     ),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     * )
+     */
     public function index(User $users)
     {
         $users = User::all()->where('role', '=', 'user');
@@ -22,6 +35,29 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Login a user",
+     *     tags={"User"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="email", type="string", example="johndoe@example.com"),
+     *             @OA\Property(property="password", type="string", example="password")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User successfully logged in",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user", ref="#/components/schemas/User"),
+     *             @OA\Property(property="token", type="string", example="jwt-token")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     * )
+     */
     public function login(Request $request)
     {
         $validated = $request->validate([
@@ -38,6 +74,33 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\Post(
+     *     path="/api/register",
+     *     summary="Create a new user",
+     *     tags={"User"},
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="email", type="string", example="johndoe@example.com"),
+     *             @OA\Property(property="password", type="string", example="password"),
+     *             @OA\Property(property="profile_picture", type="string", example="picture.jpg"),
+     *             @OA\Property(property="role", type="string", example="admin")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User created",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="user", ref="#/components/schemas/User"),
+     *             @OA\Property(property="token", type="string", example="jwt-token")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     * )
+     */
+
     public function store(Request $request, User $user)
     {
         $inputs = $request->all();
@@ -45,7 +108,6 @@ class UserController extends Controller
         $inputs['password'] = Hash::make($inputs['password']);
 
         if ($request->hasFile('profile_picture')) {
-
             if ($user->profile_picture) {
                 Storage::disk('public')->delete($user->profile_picture);
             }
@@ -63,6 +125,36 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\Put(
+     *     path="/api/users/{id}",
+     *     summary="Update an existing user",
+     *     tags={"User"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the user to update",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             @OA\Property(property="name", type="string", example="John Doe"),
+     *             @OA\Property(property="email", type="string", example="johndoe@example.com"),
+     *             @OA\Property(property="password", type="string", example="newpassword"),
+     *             @OA\Property(property="profile_picture", type="string", example="/path/to/picture.jpg"),
+     *             @OA\Property(property="role", type="string", example="admin")
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User updated",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     * )
+     */
     public function update(Request $request, User $user)
     {
         $inputs = $request->all();
@@ -84,6 +176,26 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\Get(
+     *     path="/api/users/{id}",
+     *     summary="Get details of a specific user",
+     *     tags={"User"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the user",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="User details",
+     *         @OA\JsonContent(ref="#/components/schemas/User")
+     *     ),
+     *     @OA\Response(response=404, description="User not found"),
+     * )
+     */
     public function show(int $id)
     {
         $user = User::findOrFail($id);
@@ -91,6 +203,25 @@ class UserController extends Controller
     }
 
 
+    /**
+     * @OA\Delete(
+     *     path="/api/users/{id}",
+     *     summary="Delete a user",
+     *     tags={"User"},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="ID of the user",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=204,
+     *         description="User deleted successfully",
+     *     ),
+     *     @OA\Response(response=404, description="User not found"),
+     * )
+     */
     public function destroy(User $user)
     {
         $user->delete();

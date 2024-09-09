@@ -14,8 +14,25 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
+
+/**
+ * @OA\Schema(
+ *     schema="User",
+ *     type="object",
+ *     title="User",
+ *     description="User model",
+ *     required={"name", "email", "password", "role"},
+ *     @OA\Property(property="id", type="integer", example=1, description="ID of the user"),
+ *     @OA\Property(property="name", type="string", example="John Doe", description="Name of the user"),
+ *     @OA\Property(property="email", type="string", example="johndoe@example.com", description="Email of the user"),
+ *     @OA\Property(property="profile_picture", type="string", example="/path/to/profile.jpg", description="Profile picture URL"),
+ *     @OA\Property(property="role", type="string", example="admin", description="Role of the user"),
+ *     @OA\Property(property="created_at", type="string", format="date-time", example="2024-09-09T13:39:44.000000Z", description="User creation timestamp"),
+ *     @OA\Property(property="updated_at", type="string", format="date-time", example="2024-09-09T13:39:44.000000Z", description="User update timestamp"),
+ * )
+ */
+
 class User extends Authenticatable implements JWTSubject, FilamentUser
-//  implements FilamentUser
 {
     use HasFactory, Notifiable, SoftDeletes;
 
