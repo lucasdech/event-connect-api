@@ -30,7 +30,7 @@ class UserValidator extends LaravelValidator
         ],
         ValidatorInterface::RULE_UPDATE => [
             'name' => ['sometimes','string','max:255'],
-            'profile_picture' => ['sometimes','image','max:2048'],
+            'profile_picture' => ['sometimes','image','mimes:jpg,jpeg,png','max:5120'],
             'email' => ['sometimes','string','email','max:255','unique:users'],
             'password' => ['sometimes','string','min:8'],
         ],

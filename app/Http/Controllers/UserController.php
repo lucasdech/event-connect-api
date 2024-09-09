@@ -45,6 +45,7 @@ class UserController extends Controller
         $inputs['password'] = Hash::make($inputs['password']);
 
         if ($request->hasFile('profile_picture')) {
+
             if ($user->profile_picture) {
                 Storage::disk('public')->delete($user->profile_picture);
             }
@@ -72,7 +73,7 @@ class UserController extends Controller
 
         if ($request->hasFile('profile_picture')) {
             if ($user->profile_picture) {
-                Storage::disk('public')->delete($user->profile_picture);
+                Storage::disk('public/profile_picture')->delete($user->profile_picture);
             }
             $path = $request->file('profile_picture')->store('profile_pictures', 'public');
             $inputs['profile_picture'] = $path;
