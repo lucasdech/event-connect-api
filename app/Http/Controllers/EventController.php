@@ -11,12 +11,21 @@ use Illuminate\Support\Facades\Hash;
 
 class EventController extends Controller
 {
+
+    /**
+     * @OA\Tags(
+     *     name="Event",
+     *     description="Operations related to Event"
+     * )
+     */
+    
     public function __construct(private EventRepository $eventRepository) {}
 
     /**
      * @OA\Get(
      *     path="/events",
      *     summary="Get list of events",
+     *     tags={"Event"},
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
@@ -39,6 +48,7 @@ class EventController extends Controller
      * @OA\Post(
      *     path="/events",
      *     summary="Create a new event",
+     *     tags={"Event"},
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\MediaType(
@@ -71,6 +81,7 @@ class EventController extends Controller
      * @OA\Put(
      *     path="/events/{id}",
      *     summary="Update an existing event",
+     *     tags={"Event"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -107,6 +118,7 @@ class EventController extends Controller
      * @OA\Get(
      *     path="/events/{id}",
      *     summary="Get details of a specific event",
+     *     tags={"Event"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -134,6 +146,7 @@ class EventController extends Controller
      * @OA\Delete(
      *     path="/events/{id}",
      *     summary="Delete an event",
+     *     tags={"Event"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

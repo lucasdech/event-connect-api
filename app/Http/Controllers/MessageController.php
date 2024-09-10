@@ -11,12 +11,21 @@ use Illuminate\Http\Request;
 
 class MessageController extends Controller
 {
+
+    /**
+     * @OA\Tag(
+     *     name="Messages",
+     *     description="Operations related to Messages"
+     * )
+     */
+    
     public function __construct(private MessageRepository $messageRepository) {}
 
     /**
      * @OA\Get(
      *     path="/api/messages",
      *     summary="Get list of messages",
+     *     tags={"Messages"},
      *     @OA\Response(
      *         response=200,
      *         description="Successful response",
@@ -29,6 +38,7 @@ class MessageController extends Controller
      *     )
      * )
      */
+
     public function index()
     {
         $message = Message::all();
@@ -46,6 +56,7 @@ class MessageController extends Controller
      *             @OA\Schema(ref="#/components/schemas/Message")
      *         )
      *     ),
+     *     tags={"Messages"},
      *     @OA\Response(
      *         response=200,
      *         description="Message created successfully",
@@ -70,6 +81,7 @@ class MessageController extends Controller
      * @OA\Put(
      *     path="/messages/{id}",
      *     summary="Update an existing message",
+     *     tags={"Messages"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -106,6 +118,7 @@ class MessageController extends Controller
      * @OA\Get(
      *     path="/messages/{id}",
      *     summary="Get details of a specific message",
+     *     tags={"Messages"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",
@@ -133,6 +146,7 @@ class MessageController extends Controller
      * @OA\Delete(
      *     path="/messages/{id}",
      *     summary="Delete a message",
+     *     tags={"Messages"},
      *     @OA\Parameter(
      *         name="id",
      *         in="path",

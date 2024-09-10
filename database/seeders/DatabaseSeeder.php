@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory(20)->create();
+        User::factory(40)->create();
         Event::factory(10)->create();
-        Message::factory(10)->create();
-        EventUser::factory(30)->create();
+        Message::factory(50)->create();
+        EventUser::factory(50)->create();
         ForbiddenWord::create(['word'=>'merde']);
     }
 }

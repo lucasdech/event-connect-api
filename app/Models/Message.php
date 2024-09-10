@@ -11,6 +11,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *     schema="Message",
  *     type="object",
  *     title="Message",
+ *     description="Message Model",
+ *     required={"content", "user_id", "event_id"},
  *     @OA\Property(property="id", type="integer", example=1),
  *     @OA\Property(property="user_id", type="integer", example=1),
  *     @OA\Property(property="content", type="string", example="Message content here"),

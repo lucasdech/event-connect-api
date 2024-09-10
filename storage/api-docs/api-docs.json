@@ -4,7 +4,7 @@
         "title": "API Documentation",
         "description": "Documentation for the API",
         "contact": {
-            "email": "support@example.com"
+            "email": "lucasdechavanne22@gmail.com"
         },
         "license": {
             "name": "MIT",
@@ -15,6 +15,9 @@
     "paths": {
         "/events": {
             "get": {
+                "tags": [
+                    "Event"
+                ],
                 "summary": "Get list of events",
                 "operationId": "66c820e79ec6535e179375c186db9395",
                 "responses": {
@@ -47,6 +50,9 @@
                 }
             },
             "post": {
+                "tags": [
+                    "Event"
+                ],
                 "summary": "Create a new event",
                 "operationId": "698833baaa136da25b55969bda5104d7",
                 "requestBody": {
@@ -88,6 +94,9 @@
         },
         "/events/{id}": {
             "get": {
+                "tags": [
+                    "Event"
+                ],
                 "summary": "Get details of a specific event",
                 "operationId": "f2f0a5a610e5bd6a572f3b9bd5dd52c3",
                 "parameters": [
@@ -127,6 +136,9 @@
                 }
             },
             "put": {
+                "tags": [
+                    "Event"
+                ],
                 "summary": "Update an existing event",
                 "operationId": "4e52f27bc565fbbc73a09411c475b011",
                 "parameters": [
@@ -176,6 +188,9 @@
                 }
             },
             "delete": {
+                "tags": [
+                    "Event"
+                ],
                 "summary": "Delete an event",
                 "operationId": "d9e4e6c812ee62b2c751d1d2d3d44b80",
                 "parameters": [
@@ -217,6 +232,9 @@
         },
         "/api/messages": {
             "get": {
+                "tags": [
+                    "Messages"
+                ],
                 "summary": "Get list of messages",
                 "operationId": "9d5effa2cb648df85be0ea9741ffb457",
                 "responses": {
@@ -251,6 +269,9 @@
         },
         "/messages": {
             "post": {
+                "tags": [
+                    "Messages"
+                ],
                 "summary": "Create a new message",
                 "operationId": "941d583a09ed64becb2c2f4753c22501",
                 "requestBody": {
@@ -292,6 +313,9 @@
         },
         "/messages/{id}": {
             "get": {
+                "tags": [
+                    "Messages"
+                ],
                 "summary": "Get details of a specific message",
                 "operationId": "abaddc21ac1f3e46b3cf1527df9bad66",
                 "parameters": [
@@ -331,6 +355,9 @@
                 }
             },
             "put": {
+                "tags": [
+                    "Messages"
+                ],
                 "summary": "Update an existing message",
                 "operationId": "db4cc0a1323c296f0c2eebdd58773b44",
                 "parameters": [
@@ -380,6 +407,9 @@
                 }
             },
             "delete": {
+                "tags": [
+                    "Messages"
+                ],
                 "summary": "Delete a message",
                 "operationId": "0f23c4e12ec2e4b342056b050e5c72c4",
                 "parameters": [
@@ -514,11 +544,11 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "John Doe"
+                                        "example": "User 1"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "example": "johndoe@example.com"
+                                        "example": "exemple@example.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -527,10 +557,6 @@
                                     "profile_picture": {
                                         "type": "string",
                                         "example": "picture.jpg"
-                                    },
-                                    "role": {
-                                        "type": "string",
-                                        "example": "admin"
                                     }
                                 },
                                 "type": "object"
@@ -623,11 +649,11 @@
                                 "properties": {
                                     "name": {
                                         "type": "string",
-                                        "example": "John Doe"
+                                        "example": "User 2"
                                     },
                                     "email": {
                                         "type": "string",
-                                        "example": "johndoe@example.com"
+                                        "example": "exemple@example.com"
                                     },
                                     "password": {
                                         "type": "string",
@@ -636,10 +662,6 @@
                                     "profile_picture": {
                                         "type": "string",
                                         "example": "/path/to/picture.jpg"
-                                    },
-                                    "role": {
-                                        "type": "string",
-                                        "example": "admin"
                                     }
                                 },
                                 "type": "object"
@@ -748,6 +770,12 @@
             },
             "Message": {
                 "title": "Message",
+                "description": "Message Model",
+                "required": [
+                    "content",
+                    "user_id",
+                    "event_id"
+                ],
                 "properties": {
                     "id": {
                         "type": "integer",
@@ -813,11 +841,6 @@
                         "type": "string",
                         "example": "/path/to/profile.jpg"
                     },
-                    "role": {
-                        "description": "Role of the user",
-                        "type": "string",
-                        "example": "admin"
-                    },
                     "created_at": {
                         "description": "User creation timestamp",
                         "type": "string",
@@ -837,8 +860,16 @@
     },
     "tags": [
         {
+            "name": "Messages",
+            "description": "Operations related to Messages"
+        },
+        {
             "name": "User",
-            "description": "User"
+            "description": "Operations related to Users"
+        },
+        {
+            "name": "Event",
+            "description": "Event"
         }
     ]
 }

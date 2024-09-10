@@ -11,7 +11,7 @@ abstract class Controller
      *     version="1.0.0",
      *     description="Documentation for the API",
      *     @OA\Contact(
-     *         email="support@example.com"
+     *         email="lucasdechavanne22@gmail.com"
      *     ),
      *     @OA\License(
      *         name="MIT",

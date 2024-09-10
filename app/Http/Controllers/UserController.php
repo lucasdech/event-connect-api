@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
 
+    /**
+     * @OA\Tag(
+     *     name="User",
+     *     description="Operations related to Users"
+     * )
+     */
+
     public function __construct(private UserRepository $userRepository) {}
 
     /**
@@ -82,11 +89,10 @@ class UserController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="email", type="string", example="johndoe@example.com"),
+     *             @OA\Property(property="name", type="string", example="User 1"),
+     *             @OA\Property(property="email", type="string", example="exemple@example.com"),
      *             @OA\Property(property="password", type="string", example="password"),
      *             @OA\Property(property="profile_picture", type="string", example="picture.jpg"),
-     *             @OA\Property(property="role", type="string", example="admin")
      *         )
      *     ),
      *     @OA\Response(
@@ -140,11 +146,10 @@ class UserController extends Controller
      *     @OA\RequestBody(
      *         required=true,
      *         @OA\JsonContent(
-     *             @OA\Property(property="name", type="string", example="John Doe"),
-     *             @OA\Property(property="email", type="string", example="johndoe@example.com"),
+     *             @OA\Property(property="name", type="string", example="User 2"),
+     *             @OA\Property(property="email", type="string", example="exemple@example.com"),
      *             @OA\Property(property="password", type="string", example="newpassword"),
      *             @OA\Property(property="profile_picture", type="string", example="/path/to/picture.jpg"),
-     *             @OA\Property(property="role", type="string", example="admin")
      *         )
      *     ),
      *     @OA\Response(
