@@ -23,7 +23,9 @@ class ForbiddenWordResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('word')
+                    ->required()
+                    ->maxLength(255),
             ]);
     }
 

@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Laravel\Facades\Resend;
 
 class UserController extends Controller
 {
@@ -113,6 +115,8 @@ class UserController extends Controller
         $password = $inputs['password'];
         $inputs['password'] = Hash::make($inputs['password']);
 
+
+        //upload de photo a deplacer dans un service
         if ($request->hasFile('profile_picture')) {
             if ($user->profile_picture) {
                 Storage::disk('public')->delete($user->profile_picture);
@@ -120,6 +124,15 @@ class UserController extends Controller
             $path = $request->file('profile_picture')->store('profile_pictures', 'public');
             $inputs['profile_picture'] = $path;
         }
+
+        //envoie de main a voir prcq la c'est chiant je peut en envoyer que a moi...
+        Mail::send('emails.register', [
+            'title' => 'Bienvenue sur notre plateforme',
+            'content' => 'Merci de vous être inscrit à notre service. Nous sommes ravis de vous compter parmi nous.'
+        ], function($message) {
+            $message->to('emma_dechavanne@hotmail.fr')
+                    ->subject('Bienvenue sur notre plateforme');
+        });
 
         $user = $this->userRepository->create($inputs);
 

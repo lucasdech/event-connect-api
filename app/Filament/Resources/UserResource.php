@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Facades\Hash;
 
 class UserResource extends Resource
 {
@@ -23,7 +24,24 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('email')
+                    ->email()
+                    ->required()
+                    ->maxLength(255)
+                    ->unique(ignoreRecord: true),
+                Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->required()
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
+                    ->hiddenOn('edit'),
+                Forms\Components\FileUpload::make('profile_picture')
+                    ->image()
+                    ->maxSize(5120)
+                    ->directory('/public/profile-pictures'),      
             ]);
     }
 
@@ -36,6 +54,7 @@ class UserResource extends Resource
                 Tables\Columns\TextColumn::make('created_at')->sortable(),
                 Tables\Columns\TextColumn::make('updated_at'),
                 Tables\Columns\TextColumn::make('deleted_at'),
+
             ])
             ->filters([
                 //

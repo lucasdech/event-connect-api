@@ -9,7 +9,7 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-
+use Illuminate\Support\Facades\Hash;
 
 class EventResource extends Resource
 {
@@ -24,6 +24,21 @@ class EventResource extends Resource
                 Forms\Components\Select::make('user_id')
                     ->relationship('user', 'name')
                     ->required(),
+                Forms\Components\TextInput::make('title')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\Toggle::make('is_private')
+                    ->required(),
+                    Forms\Components\TextInput::make('password')
+                    ->password()
+                    ->maxLength(255)
+                    ->dehydrateStateUsing(fn ($state) => Hash::make($state)),
+                Forms\Components\DateTimePicker::make('starting_at')
+                    ->required(),
+                Forms\Components\Textarea::make('description')
+                    ->maxLength(65535),
+                Forms\Components\TextInput::make('location')
+                    ->maxLength(255),
             ]);
     }
 

@@ -21,7 +21,15 @@ class MessageResource extends Resource
     {
         return $form
             ->schema([
-                //
+                \Filament\Forms\Components\Select::make('user_id')
+                    ->relationship('user', 'name')
+                    ->required(),
+                \Filament\Forms\Components\Select::make('event_id')
+                    ->relationship('event', 'title')
+                    ->required(),
+                \Filament\Forms\Components\TextInput::make('content')
+                    ->required()
+                    ->maxLength(255)
             ]);
     }
 
