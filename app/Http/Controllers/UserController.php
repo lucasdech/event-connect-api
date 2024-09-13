@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Laravel\Facades\Resend;
 
 class UserController extends Controller
 {
@@ -126,13 +125,13 @@ class UserController extends Controller
         }
 
         //envoie de main a voir prcq la c'est chiant je peut en envoyer que a moi...
-        Mail::send('emails.register', [
-            'title' => 'Bienvenue sur notre plateforme',
-            'content' => 'Merci de vous être inscrit à notre service. Nous sommes ravis de vous compter parmi nous.'
-        ], function($message) {
-            $message->to('emma_dechavanne@hotmail.fr')
-                    ->subject('Bienvenue sur notre plateforme');
-        });
+        // Mail::send('emails.register', [
+        //     'title' => 'Bienvenue sur notre plateforme',
+        //     'content' => 'Merci de vous être inscrit à notre service. Nous sommes ravis de vous compter parmi nous.'
+        // ], function($message) {
+        //     $message->to('lucasdechavanne22@gmail.com')
+        //             ->subject('Bienvenue sur notre plateforme');
+        // });
 
         $user = $this->userRepository->create($inputs);
 

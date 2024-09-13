@@ -16,6 +16,8 @@ Route::get('/users', [UserController::class, 'index']);
 Route::get('/events', [EventController::class, 'index']);
 Route::get('/event/{event}', [EventController::class, 'show']);
 
+Route::get('/email/verify')->middleware('auth')->name('verification.notice');
+
 Route::group([
 
     'middleware' => 'auth:api',

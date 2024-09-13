@@ -66,7 +66,7 @@
     <h1>Bienvenue sur l'API EventConnect</h1>
 
     <section id="links">
-        <a class="link" href="#">Documentation</a>
+        <a class="link" href="#">Documentation ici</a>
     </section>
 
     <div id="canvasPlace">
