@@ -97,7 +97,7 @@ class User extends Authenticatable implements JWTSubject, FilamentUser, MustVeri
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->role === 'admin' && $this->email === 'lucasdechavanne22@gmail.com';
+        return ($this->role === 'admin' && str_ends_with($this->email, 'lucasdechavanne22@gmail.com') && $this->hasVerifiedEmail());
     }
 
     // FOR JWT
