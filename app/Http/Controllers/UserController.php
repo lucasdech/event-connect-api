@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 
 class UserController extends Controller
 {
@@ -76,7 +78,11 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $user = User::where('email', '=', $validated['email']);
+        if (App::environment('production')) {
+            URL::forceSheme('https');
+        }
+
+        $user = User::where('email', '=', $validated['email'])->first();
 
         return $this->jsonResponse('success', 'User Login', ['user' => $user, 'token' => $token], 201);
     }
