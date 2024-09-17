@@ -78,10 +78,6 @@ class UserController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        if (App::environment('production')) {
-            URL::forceSheme('https');
-        }
-
         $user = User::where('email', '=', $validated['email'])->first();
 
         return $this->jsonResponse('success', 'User Login', ['user' => $user, 'token' => $token], 201);

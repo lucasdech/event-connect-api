@@ -63,7 +63,7 @@
 </head>
 
 <body id="body">
-    <h1>Bienvenue sur l'API EventConnect test</h1>
+    <h1>Bienvenue sur l'API EventConnect</h1>
 
     <section id="links">
         <a class="link" href="#">Documentation ici</a>
