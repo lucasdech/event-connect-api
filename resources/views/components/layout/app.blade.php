@@ -13,6 +13,9 @@
             [x-cloak] {
                 display: none !important;
             }
+            body {
+                display: flex;
+            }
         </style>
  
         @filamentStyles

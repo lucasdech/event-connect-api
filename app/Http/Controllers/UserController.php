@@ -124,7 +124,7 @@ class UserController extends Controller
             $inputs['profile_picture'] = $path;
         }
 
-        //envoie de main a voir prcq la c'est chiant je peut en envoyer que a moi...
+        //envoie de mail a voir prcq la c'est chiant je peut en envoyer que a moi...
         // Mail::send('emails.register', [
         //     'title' => 'Bienvenue sur notre plateforme',
         //     'content' => 'Merci de vous être inscrit à notre service. Nous sommes ravis de vous compter parmi nous.'
@@ -141,7 +141,6 @@ class UserController extends Controller
 
         return $this->jsonResponse('success', 'User created', ['user' => $user, 'token' => $token], 201);
     }
-
 
     /**
      * @OA\Put(
@@ -192,7 +191,6 @@ class UserController extends Controller
         return $this->jsonResponse('success', 'User Updated', ['user' => $user], 201);
     }
 
-
     /**
      * @OA\Get(
      *     path="/api/users/{id}",
@@ -218,7 +216,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         return $this->jsonResponse('success', 'User details', ['user' => $user], 201);
     }
-
 
     /**
      * @OA\Delete(
