@@ -89,22 +89,15 @@ class User extends Authenticatable implements JWTSubject, FilamentUser, MustVeri
     {
         return $this->belongsToMany(EventUser::class);
     }
-
     // Code to use Filament in prod
-
-    public function canAccessPanelPROD(Panel $panel): bool
-    {
-        return str_ends_with($this->email, 'lucasdechavanne22@gmail.com');
-    }
-
     /**
-     * Determine if the user can access the Filament panel.
+     * Détermine si l'utilisateur peut accéder au panneau Filament.
      *
      * @return bool
      */
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->role === 'admin';
+        return ($this->role === 'admin' && str_ends_with($this->email, 'lucasdechavanne22@gmail.com'));
     }
 
     // FOR JWT
