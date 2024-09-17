@@ -92,13 +92,10 @@ class User extends Authenticatable implements JWTSubject, FilamentUser, MustVeri
 
     // Code to use Filament in prod
 
-    // public function canAccessPanel(Panel $panel): bool
-    // {
-    //     if ($_SERVER['HTTP_HOST'] !== 'localhost') // or any other host
-    //     {
-    //          return str_ends_with($this->email, '@gmail.com') && $this->hasVerifiedEmail();
-    //     }
-    // }
+    public function canAccessPanelPROD(Panel $panel): bool
+    {
+        return str_ends_with($this->email, 'lucasdechavanne22@gmail.com');
+    }
 
     /**
      * Determine if the user can access the Filament panel.
