@@ -19,7 +19,8 @@ class EventUserValidator extends LaravelValidator
      */
     protected $rules = [
         ValidatorInterface::RULE_CREATE => [
-             'event_id' => ['required','int','unique'],
+             'event_id' => ['required','int'],
+             'user_id' => ['required','int'],
         ],
         ValidatorInterface::RULE_UPDATE => [],
     ];
