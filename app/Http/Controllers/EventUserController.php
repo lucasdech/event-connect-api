@@ -27,9 +27,8 @@ class EventUserController extends Controller
 
     public function store(Request $request)
     {
-       
         $inputs = $request->all();
-        $inputs['user_id'] = auth('api')->user()->id;
+        // $inputs['user_id'] = auth('api')->user()->id;
         $EventUser = $this->eventUserRepository->create($inputs);
         return $this->jsonResponse('success', 'Eventuser crated', ['EventUser' => $EventUser], 200) ;
     }

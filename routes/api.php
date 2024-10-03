@@ -38,7 +38,6 @@ Route::group([
     Route::put('/message/{message}', [MessageController::class, 'update']);
     Route::delete('/message/{message}', [MessageController::class, 'destroy']);
 
-
     Route::get('/eventuser', [EventUserController::class, 'index']);
     Route::get('/MyEvents', [EventUserController::class, 'show']);
     Route::post('/MyEvent/participate', [EventUserController::class, 'store']);
