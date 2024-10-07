@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use App\Models\Message;
 use App\Repositories\MessageRepository;
 use Illuminate\Http\Request;
@@ -140,6 +141,12 @@ class MessageController extends Controller
     public function show(Message $message)
     {
         return $this->jsonResponse('success', 'Details Message', ['message' => $message], 200);
+    }
+
+    public function showEventMessages(Event $event)
+    {
+        $messages = Message::where('event_id', $event->id)->get();
+        return $this->jsonResponse('success', 'Event Messages', ['messages' => $messages], 200);
     }
 
     /**

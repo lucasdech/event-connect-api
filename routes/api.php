@@ -34,6 +34,7 @@ Route::group([
 
     Route::get('/messages', [MessageController::class, 'index']);
     Route::get('/message/{message}', [MessageController::class, 'show']);
+    Route::get('/messages/{event}', [MessageController::class, 'showEventMessages']);
     Route::post('/message', [MessageController::class, 'store']);
     Route::put('/message/{message}', [MessageController::class, 'update']);
     Route::delete('/message/{message}', [MessageController::class, 'destroy']);
