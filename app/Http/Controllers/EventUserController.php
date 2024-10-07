@@ -27,7 +27,7 @@ class EventUserController extends Controller
 
     public function showUserInEvent(int $id)
     {
-        $participations = EventUser::where('event_id', $id)->with(['user'])->get();
+        $participations = EventUser::where('event_id', $id)->with(['users'])->get();
         return $this->jsonResponse('success', 'User Event Details', ['User Event' => $participations], 201);
     }
 
