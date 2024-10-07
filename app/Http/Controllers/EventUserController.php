@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Entities\Event;
 use App\Http\Controllers\Controller;
 use App\Models\EventUser;
 use App\Repositories\EventUserRepository;
@@ -25,12 +26,12 @@ class EventUserController extends Controller
         return $this->jsonResponse('success', 'User Event Details', ['User Event' => $participations], 201);
     }
 
-    public function showUserInEvent(int $id)
+    public function showUserInEvent(Event $event)
     {
-        $participations = EventUser::where('event_id', $id)->with(['user'])->get();
+        $participations = EventUser::where('event_id', $event->id)->with(['user'])->get();
         return $this->jsonResponse('success', 'User Event Details', ['User Event' => $participations], 201);
     }
-
+   
     public function store(Request $request)
     {
         $inputs = $request->all();
