@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
@@ -218,6 +219,15 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         return $this->jsonResponse('success', 'User details', ['user' => $user], 201);
     }
+
+
+    public function showUserByEvent(int $id)
+    {
+        $event = Event::findOrFail($id);
+        $users = $event->users()->where('role', '=', 'user')->get();
+        return $this->jsonResponse('success', 'Users for event', ['users' => $users], 200);
+    }
+
 
     /**
      * @OA\Delete(
