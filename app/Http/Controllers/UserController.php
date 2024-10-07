@@ -220,15 +220,6 @@ class UserController extends Controller
         return $this->jsonResponse('success', 'User details', ['user' => $user], 201);
     }
 
-
-    public function showUserByEvent(int $id)
-    {
-        $event = Event::findOrFail($id);
-        $users = $event->get();
-        return $this->jsonResponse('success', 'Users for event', ['users' => $users], 200);
-    }
-
-
     /**
      * @OA\Delete(
      *     path="/api/users/{id}",

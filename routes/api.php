@@ -25,7 +25,6 @@ Route::group([
 ], function ($router) {
 
     Route::get('/user/{user}', [UserController::class, 'show']);
-    Route::get('/users-event/{event}', [UserController::class, 'showUserByEvent']);
     Route::put('/user/{user}', [UserController::class, 'update']);
     Route::delete('/user/{user}', [UserController::class, 'destroy']);
 
@@ -41,6 +40,7 @@ Route::group([
 
     Route::get('/eventuser', [EventUserController::class, 'index']);
     Route::get('/MyEvents', [EventUserController::class, 'show']);
+    Route::get('/MyEvent/{event}', [EventUserController::class, 'showUserInEvent']);
     Route::post('/MyEvent/participate', [EventUserController::class, 'store']);
     Route::delete('/MyEvent/{EventUser}', [EventUserController::class, 'destroy']);
 
