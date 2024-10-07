@@ -224,7 +224,7 @@ class UserController extends Controller
     public function showUserByEvent(int $id)
     {
         $event = Event::findOrFail($id);
-        $users = $event->where('role', '=', 'user')->get();
+        $users = $event->get();
         return $this->jsonResponse('success', 'Users for event', ['users' => $users], 200);
     }
 
