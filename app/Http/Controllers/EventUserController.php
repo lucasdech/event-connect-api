@@ -42,8 +42,9 @@ class EventUserController extends Controller
         return $this->jsonResponse('success', 'Eventuser crated', ['EventUser' => $EventUser], 200) ;
     }
 
-    public function destroy(EventUser $EventUser)
+    public function destroy(int $userId)
     {
+        $EventUser = EventUser::find($userId);
         $EventUser->delete();
         return $this->jsonResponse('success', 'Eventuser deleted', ['users' => $EventUser], 204) ;
     }
