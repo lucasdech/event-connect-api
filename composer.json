@@ -16,6 +16,7 @@
         "laravel/telescope": "^5.2",
         "laravel/tinker": "^2.9",
         "prettus/l5-repository": "^2.8",
+        "pusher/pusher-php-server": "^7.2",
         "resend/resend-laravel": "^0.14.0",
         "tymon/jwt-auth": "^2.1",
         "zircote/swagger-php": "^4.10"

@@ -7,7 +7,7 @@ use App\Models\Event;
 use App\Models\Message;
 use App\Repositories\MessageRepository;
 use Illuminate\Http\Request;
-
+use App\Events\MessageSent;
 
 
 class MessageController extends Controller
@@ -71,12 +71,19 @@ class MessageController extends Controller
      * )
      */
     public function store(Request $request)
-    {
-        $inputs = $request->all();
-        $inputs['user_id'] = auth('api')->user()->id;
-        $message = $this->messageRepository->create($inputs);
-        return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
-    }
+{
+    $inputs = $request->all();
+    $inputs['user_id'] = auth('api')->user()->id;
+
+    // Créer le message
+    $message = $this->messageRepository->create($inputs);
+
+    // Émettre l'événement après la création du message
+    event(new MessageSent($message));
+
+    return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
+}
+
 
     /**
      * @OA\Put(
@@ -138,16 +145,16 @@ class MessageController extends Controller
      *     )
      * )
      */
-    public function show(Message $message)
-    {
-        return $this->jsonResponse('success', 'Details Message', ['message' => $message], 200);
-    }
-
     public function showEventMessages(Event $event)
     {
         $messages = Message::where('event_id', $event->id)->with('user')->get();
+    
+        // Émettre un événement si tu veux informer les clients des messages récents
+        event(new MessageSent($messages));
+    
         return $this->jsonResponse('success', 'Event Messages', ['messages' => $messages], 200);
     }
+    
 
     /**
      * @OA\Delete(
