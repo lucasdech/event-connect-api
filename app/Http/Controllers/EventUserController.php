@@ -43,7 +43,7 @@ class EventUserController extends Controller
     public function destroy(int $userId)
     {
         $EventUser = EventUser::where('user_id', $userId && 'event_id')->first();
-        $EventUser->delete();
+        $EventUser = $this->eventUserRepository->delete($userId);
         return $this->jsonResponse('success', 'Eventuser deleted', ['users' => $EventUser], 204) ;
     }
 }
