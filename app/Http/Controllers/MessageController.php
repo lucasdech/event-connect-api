@@ -77,9 +77,7 @@ class MessageController extends Controller
         $message = $this->messageRepository->create($inputs);
         
         // Émettre l'événement
-        Broadcast::channel('event-' . $message->event_id, function () use ($message) {
-            return $message; // Donne le message pour le canal
-        });
+        event(new MessageSent($message));
     
         return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
     }

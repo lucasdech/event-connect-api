@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -16,13 +17,18 @@ class MessageSent implements ShouldBroadcast
 
     public $message;
 
-    public function __construct($message)
+    public function __construct(Message $message)
     {
         $this->message = $message;
     }
 
     public function broadcastOn()
     {
-        return new Channel('chat');
+        return new Channel('event-' . $this->message->event_id);
+    }
+
+    public function broadcastAs()
+    {
+        return 'message-sent'; // Nom de l'événement
     }
 }
