@@ -8,7 +8,7 @@ use App\Models\Message;
 use App\Repositories\MessageRepository;
 use Illuminate\Http\Request;
 use App\Events\MessageSent;
-
+use Illuminate\Support\Facades\Broadcast;
 
 class MessageController extends Controller
 {
@@ -71,18 +71,18 @@ class MessageController extends Controller
      * )
      */
     public function store(Request $request)
-{
-    $inputs = $request->all();
-    $inputs['user_id'] = auth('api')->user()->id;
-
-    // Créer le message
-    $message = $this->messageRepository->create($inputs);
-
-    // Émettre l'événement après la création du message
-    event(new MessageSent($message));
-
-    return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
-}
+    {
+        $inputs = $request->all();
+        $inputs['user_id'] = auth('api')->user()->id;
+        $message = $this->messageRepository->create($inputs);
+        
+        // Émettre l'événement
+        Broadcast::channel('event-' . $message->event_id, function () use ($message) {
+            return $message; // Donne le message pour le canal
+        });
+    
+        return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
+    }
 
 
     /**
