@@ -8,7 +8,7 @@ use App\Models\Message;
 use App\Repositories\MessageRepository;
 use Illuminate\Http\Request;
 use Pusher\Pusher;
-use Illuminate\Support\Facades\Log; // Ajoutez cette ligne en haut du fichier
+
 
 class MessageController extends Controller
 {
@@ -71,21 +71,22 @@ class MessageController extends Controller
      * )
      */
     public function store(Request $request)
-{
-    try {
-        $inputs = $request->all();
-        $inputs['user_id'] = auth('api')->user()->id;
+    {
+        $inputs = $request->validate([
+            'content' => 'required|string',
+            'event_id' => 'required|integer',
+        ]);
 
+        $inputs['user_id'] = auth('api')->user()->id;
+        
+        // Créer le message
         $message = $this->messageRepository->create($inputs);
+
+        // Diffuser l'événement de message via Pusher
         $this->broadcastMessage($message);
 
         return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
-    } catch (\Exception $e) {
-        // Log l'erreur et renvoie une réponse appropriée
-        Log::error('Erreur lors de la création du message: ' . $e->getMessage());
-        return $this->jsonResponse('error', 'Internal Server Error', null, 500);
     }
-}
 
     private function broadcastMessage($message)
     {
