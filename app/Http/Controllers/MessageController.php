@@ -7,7 +7,7 @@ use App\Models\Event;
 use App\Models\Message;
 use App\Repositories\MessageRepository;
 use Illuminate\Http\Request;
-
+use Pusher\Pusher;
 
 
 class MessageController extends Controller
@@ -74,8 +74,39 @@ class MessageController extends Controller
     {
         $inputs = $request->all();
         $inputs['user_id'] = auth('api')->user()->id;
+        
+        // Créer le message
         $message = $this->messageRepository->create($inputs);
+
+        // Diffuser l'événement de message via Pusher
+        $this->broadcastMessage($message);
+
         return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
+    }
+
+    private function broadcastMessage($message)
+    {
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            [
+                'cluster' => env('PUSHER_APP_CLUSTER'),
+                'useTLS' => true,
+            ]
+        );
+
+        $data = [
+            'id' => $message->id,
+            'content' => $message->content,
+            'user_id' => $message->user_id,
+            'event_id' => $message->event_id,
+            'created_at' => $message->created_at,
+            // Ajoute d'autres champs si nécessaire
+        ];
+
+        // Émettre l'événement sur le canal
+        $pusher->trigger('chat-channel', 'message-sent', $data);
     }
 
     /**
