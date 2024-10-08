@@ -45,7 +45,8 @@ class EventUserController extends Controller
         $EventUser = EventUser::where('user_id', $userId)->first();
         // var_dump($EventUser);
         // die;
-        $EventUser = $this->eventUserRepository->delete($EventUser);
+        $eventUserId = $EventUser->id;
+        $EventUser = $this->eventUserRepository->delete($eventUserId);
         return $this->jsonResponse('success', 'Eventuser deleted', ['users' => $EventUser], 204) ;
     }
 }
