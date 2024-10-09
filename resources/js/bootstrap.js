@@ -14,7 +14,7 @@ window.Echo = new Echo({
 });
 
 var channel = Echo.channel('event-connect');
-channel.listen('chat', function(data) {
+channel.listen('chat.{{event_id}}', function(data) {
   alert(JSON.stringify(data));
 });
 
