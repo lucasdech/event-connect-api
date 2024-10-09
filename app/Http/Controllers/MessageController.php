@@ -76,8 +76,7 @@ class MessageController extends Controller
         $inputs = $request->all();
         $inputs['user_id'] = auth('api')->user()->id;
         $message = $this->messageRepository->create($inputs);
-        
-        // Déclencher l'événement NewMessage
+
         // event(new NewMessage($message));
         NewMessage::dispatch($message);
         

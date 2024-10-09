@@ -13,6 +13,6 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-Broadcast::channel('chat.{eventId}', function ($user, $eventId) {
-    return true; // Permettre à tout utilisateur authentifié d'écouter les événements
+Broadcast::channel('chat.{eventId}', function () {
+    return true;
 });
