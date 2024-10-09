@@ -23,7 +23,7 @@ class NewMessage implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('chat' . $this->message->event_id);
+        return new Channel('chat', $this->message->event_id);
     }
 
     public function broadcastWith()
