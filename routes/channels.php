@@ -14,5 +14,5 @@ use Illuminate\Support\Facades\Broadcast;
 */
 
 Broadcast::channel('chat.{eventId}', function ($user, $eventId) {
-    return $user != null; // Permettre à tout utilisateur authentifié d'écouter les événements
+     // Permettre à tout utilisateur authentifié d'écouter les événements
 });

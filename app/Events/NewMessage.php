@@ -19,6 +19,7 @@ class NewMessage implements ShouldBroadcast
 
     public function broadcastOn()
     {
+        var_dump($this->message);
         return new Channel('chat.' . $this->message->event_id);
     }
 
