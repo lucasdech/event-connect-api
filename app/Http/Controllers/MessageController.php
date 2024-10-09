@@ -78,7 +78,8 @@ class MessageController extends Controller
         $message = $this->messageRepository->create($inputs);
         
         // Déclencher l'événement NewMessage
-        event(new NewMessage($message));
+        // event(new NewMessage($message));
+        NewMessage::dispatch($message);
         
         return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
     }
