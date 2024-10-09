@@ -13,4 +13,9 @@ window.Echo = new Echo({
     forceTLS: true
 });
 
+var channel = Echo.channel('event-connect');
+channel.listen('chat', function(data) {
+  alert(JSON.stringify(data));
+});
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
