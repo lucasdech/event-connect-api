@@ -12,6 +12,7 @@ use Illuminate\Queue\SerializesModels;
 
 class NewMessage implements ShouldBroadcast
 {
+    // traits 
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $message;
@@ -23,7 +24,7 @@ class NewMessage implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return new Channel('chat', $this->message->event_id);
+        return new Channel('chat' . $this->message->event_id);
     }
 
     public function broadcastWith()
