@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Message;
 use App\Repositories\MessageRepository;
 use Illuminate\Http\Request;
+use App\Events\NewMessage;
 
 
 
@@ -75,6 +76,7 @@ class MessageController extends Controller
         $inputs = $request->all();
         $inputs['user_id'] = auth('api')->user()->id;
         $message = $this->messageRepository->create($inputs);
+        event(new NewMessage($message));
         return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
     }
 
