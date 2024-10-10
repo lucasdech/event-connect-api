@@ -17,9 +17,9 @@ class EventUserRepositoryEloquent extends BaseRepository implements EventUserRep
 {
 
     protected $fieldSearchable = [
-        'participations.event.title',
-        'participations.event.location',
-        'participations.event.starting_at'
+        'event.title',
+        'event.location',
+        'event.starting_at'
     ];
     /**
      * Specify Model class name
