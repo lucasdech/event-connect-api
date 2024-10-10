@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Criteria\SearchEventCriteria;
 use App\Entities\Event;
 use App\Http\Controllers\Controller;
 use App\Models\EventUser;
 use App\Repositories\EventUserRepository;
 use Illuminate\Http\Request;
+use Prettus\Repository\Criteria\RequestCriteria;
 
 class EventUserController extends Controller
 {
 
-    public function __construct(private EventUserRepository $eventUserRepository){}
+    protected $eventUserRepository;
+
+    public function __construct(EventUserRepository $eventUserRepository)
+    {
+        $this->eventUserRepository = $eventUserRepository;
+    }
 
     public function index(EventUser $EventUser)
     {
@@ -28,6 +35,8 @@ class EventUserController extends Controller
 
     public function showUserInEvent(int $eventId)
     {
+        $this->eventUserRepository->pushCriteria(new SearchEventCriteria());
+        
         $participations = EventUser::where('event_id', $eventId)->with(['user'])->get();
         return $this->jsonResponse('success', 'User in Same Event', ['User Event' => $participations], 201);
     }
