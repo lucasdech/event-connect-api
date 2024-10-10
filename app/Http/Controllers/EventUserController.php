@@ -29,14 +29,13 @@ class EventUserController extends Controller
     public function show()
     {
         $user_id = auth('api')->user()->id;
-        $participations = EventUser::where('user_id', $user_id)->with(['event'])->get();
+        $this->eventUserRepository->pushCriteria(new RequestCriteria(app(Request::class)));
+        $participations = $this->eventUserRepository->findWhere(['user_id' => $user_id])->load('event');
         return $this->jsonResponse('success', 'User Event Details', ['User Event' => $participations], 201);
     }
 
     public function showUserInEvent(int $eventId)
     {
-        $this->eventUserRepository->pushCriteria(new SearchEventCriteria());
-        
         $participations = EventUser::where('event_id', $eventId)->with(['user'])->get();
         return $this->jsonResponse('success', 'User in Same Event', ['User Event' => $participations], 201);
     }
