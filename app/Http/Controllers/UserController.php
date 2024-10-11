@@ -120,12 +120,19 @@ class UserController extends Controller
 
         //upload de photo a deplacer dans un service
         if ($request->hasFile('profile_picture')) {
-            if ($user->profile_picture) {
-                Storage::disk('public')->delete($user->profile_picture);
+            $file = $request->file('profile_picture');
+    
+            if ($file->isValid()) {
+               
+                $path = $file->store('profile_picture', 'public');
+                
+                if ($path) {
+                    $inputs['profile_picture'] = $path;
+                    $user->update($inputs);
+                }
             }
-            $path = $request->file('profile_picture')->store('profile_pictures');
-            $inputs['profile_picture'] = $path;
         }
+        
 
         //envoie de mail a voir prcq la c'est chiant je peut en envoyer que a moi...
         // Mail::send('emails.register', [
