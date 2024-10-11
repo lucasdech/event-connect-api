@@ -121,17 +121,21 @@ class UserController extends Controller
         //upload de photo a deplacer dans un service
         if ($request->hasFile('profile_picture')) {
             $file = $request->file('profile_picture');
-    
+            
             if ($file->isValid()) {
-               
                 $path = $file->store('profile_picture', 'public');
                 
-                if ($path) {
-                    $inputs['profile_picture'] = $path;
-                    $user->update($inputs);
+                if (!$path) {
+                    return response()->json(['error' => 'Image upload failed'], 500);
                 }
+                
+                $inputs['profile_picture'] = $path;
+                $user->update($inputs);
+            } else {
+                return response()->json(['error' => 'Invalid file upload'], 400);
             }
         }
+        
         
 
         //envoie de mail a voir prcq la c'est chiant je peut en envoyer que a moi...
