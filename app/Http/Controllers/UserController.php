@@ -120,7 +120,7 @@ class UserController extends Controller
 
         //upload de photo a deplacer dans un service
         if ($request->hasFile('profile_picture')) {
-            $path = $request->file('profile_picture')->store('profile_picture', 'public');
+            $path = $request->file('profile_picture')->store('profile_picture');
             $inputs['profile_picture'] = $path;
         }
 
