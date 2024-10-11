@@ -120,23 +120,12 @@ class UserController extends Controller
 
         //upload de photo a deplacer dans un service
         if ($request->hasFile('profile_picture')) {
-            $file = $request->file('profile_picture');
-            
-            if ($file->isValid()) {
-                $path = $file->store('profile_picture', 'public');
-                
-                if (!$path) {
-                    return response()->json(['error' => 'Image upload failed'], 500);
-                }
-                
-                $inputs['profile_picture'] = $path;
-                $user->update($inputs);
-            } else {
-                return response()->json(['error' => 'Invalid file upload'], 400);
+            if ($user->profile_picture) {
+                Storage::disk('public')->delete($user->profile_picture);
             }
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $inputs['profile_picture'] = $path;
         }
-        
-        
 
         //envoie de mail a voir prcq la c'est chiant je peut en envoyer que a moi...
         // Mail::send('emails.register', [
@@ -197,7 +186,7 @@ class UserController extends Controller
             if ($user->profile_picture) {
                 Storage::disk('public/profile_picture')->delete($user->profile_picture);
             }
-            $path = $request->file('profile_picture')->store('profile_picture', 'public');
+            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
             $inputs['profile_picture'] = $path;
         }
 
