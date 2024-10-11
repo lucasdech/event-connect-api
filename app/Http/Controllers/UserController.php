@@ -123,7 +123,7 @@ class UserController extends Controller
             if ($user->profile_picture) {
                 Storage::disk('public')->delete($user->profile_picture);
             }
-            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $path = $request->file('profile_picture')->store('profile_picture', 'public');
             $inputs['profile_picture'] = $path;
         }
 
