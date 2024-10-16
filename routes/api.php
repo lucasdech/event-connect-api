@@ -43,6 +43,6 @@ Route::group([
     Route::get('/MyEvents', [EventUserController::class, 'show']);
     Route::get('/MyEvent/{event}', [EventUserController::class, 'showUserInEvent']);
     Route::post('/MyEvent/participate', [EventUserController::class, 'store']);
-    Route::delete('/MyEvent/{EventUser}', [EventUserController::class, 'destroy']);
+    Route::delete('/MyEvent/{UserId}/{EventId}', [EventUserController::class, 'destroy']);
 
 });

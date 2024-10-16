@@ -48,13 +48,11 @@ class EventUserController extends Controller
         return $this->jsonResponse('success', 'Eventuser crated', ['EventUser' => $EventUser], 200) ;
     }
 
-    public function destroy(int $userId)
+    public function destroy(int $userId, int $eventId)
     {
-        $EventUser = EventUser::where('user_id', $userId)->first();
-        // var_dump($EventUser);
-        // die;
-        $eventUserId = $EventUser->id;
-        $EventUser = $this->eventUserRepository->delete($eventUserId);
+        $EventUser = EventUser::where('user_id', $userId)->where('event_id', $eventId)->first();
+
+        $this->eventUserRepository->delete($EventUser->id);
         return $this->jsonResponse('success', 'Eventuser deleted', ['users' => $EventUser], 204) ;
     }
 }
