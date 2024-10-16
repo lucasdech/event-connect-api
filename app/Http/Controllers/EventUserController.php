@@ -48,7 +48,6 @@ class EventUserController extends Controller
         return $this->jsonResponse('success', 'Eventuser crated', ['EventUser' => $EventUser], 200) ;
     }
 
-    // AJOUT DU EVENT ID POUR PAS SUPPRIMER TOUT LES EVENTUSER AVEC USER_ID
     public function destroy(int $userId, int $eventId)
     {
         $EventUser = EventUser::where('user_id', $userId)->where('event_id', $eventId)->first();
