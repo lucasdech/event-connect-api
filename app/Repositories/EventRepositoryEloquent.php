@@ -15,6 +15,11 @@ use App\Validators\EventValidator;
  */
 class EventRepositoryEloquent extends BaseRepository implements EventRepository
 {
+
+    protected $fieldSearchable = [
+        'title',
+        'location',
+    ];
     /**
      * Specify Model class name
      *

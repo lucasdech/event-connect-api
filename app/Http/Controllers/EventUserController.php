@@ -29,7 +29,7 @@ class EventUserController extends Controller
     public function show()
     {
         $user_id = auth('api')->user()->id;
-        $this->eventUserRepository->pushCriteria(new RequestCriteria(app(Request::class)));
+        // $this->eventUserRepository->pushCriteria(new RequestCriteria(app(Request::class)));
         $participations = $this->eventUserRepository->findWhere(['user_id' => $user_id])->load('event');
         return $this->jsonResponse('success', 'User Event Details', ['User Event' => $participations], 201);
     }
@@ -48,7 +48,6 @@ class EventUserController extends Controller
         return $this->jsonResponse('success', 'Eventuser crated', ['EventUser' => $EventUser], 200) ;
     }
 
-    //modif ici de la route
     public function destroy(int $userId, int $eventId)
     {
         $EventUser = EventUser::where('user_id', $userId)->where('event_id', $eventId)->first();

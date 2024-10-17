@@ -16,11 +16,6 @@ use App\Validators\EventUserValidator;
 class EventUserRepositoryEloquent extends BaseRepository implements EventUserRepository
 {
 
-    protected $fieldSearchable = [
-        'event.title',
-        'event.location',
-        'event.starting_at'
-    ];
     /**
      * Specify Model class name
      *

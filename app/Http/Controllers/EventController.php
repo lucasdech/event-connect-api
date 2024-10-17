@@ -7,7 +7,7 @@ use App\Models\Event;
 use App\Repositories\EventRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-
+use Prettus\Repository\Criteria\RequestCriteria;
 
 class EventController extends Controller
 {
@@ -38,11 +38,12 @@ class EventController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(request $request) 
     {
-        $event = Event::all();
-        return $this->jsonResponse('success', 'Event List', ['event' => $event], 200);
+        $events = $this->eventRepository->pushCriteria(new RequestCriteria($request))->all();
+        return $this->jsonResponse('success', 'Event List', ['events' => $events], 200);
     }
+    
 
     /**
      * @OA\Post(
