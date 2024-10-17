@@ -170,4 +170,5 @@ class EventController extends Controller
         $event->delete();
         return $this->jsonResponse('success', 'Event Deleted', ['event' => $event], 204);
     }
+
 }
