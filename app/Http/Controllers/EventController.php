@@ -40,7 +40,7 @@ class EventController extends Controller
      */
     public function index()
     {
-        $event = Event::all();
+        $event = Event::all()->where('deleted_at', null);
         return $this->jsonResponse('success', 'Event List', ['event' => $event], 200);
     }
 
