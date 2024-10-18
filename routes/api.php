@@ -31,6 +31,7 @@ Route::group([
     Route::post('/event', [EventController::class, 'store']);
     Route::put('/event/{event}', [EventController::class, 'update']);
     Route::delete('/event/{event}', [EventController::class, 'destroy']);
+    Route::get('/event/{event}/verifiedpw', [EventController::class, 'verifyPassWord']);
 
     Route::get('/messages', [MessageController::class, 'index']);
     Route::get('/message/{message}', [MessageController::class, 'show']);

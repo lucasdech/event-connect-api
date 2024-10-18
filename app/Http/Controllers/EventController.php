@@ -172,4 +172,14 @@ class EventController extends Controller
         return $this->jsonResponse('success', 'Event Deleted', ['event' => $event], 204);
     }
 
+    public function verifyPassWord(Request $request, Event $event)
+    {
+        $event = $this->eventRepository->find($event->id);
+        if (Hash::check($request->password, $event->password)) {
+            return $this->jsonResponse('success', 'Password Verified', ['event' => $event], 200);
+        } else {
+            return $this->jsonResponse('error', 'Password Incorrect', [], 401);
+        }
+    }
+
 }
