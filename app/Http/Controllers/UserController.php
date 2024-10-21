@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
+use Prettus\Repository\Criteria\RequestCriteria;
 
 class UserController extends Controller
 {
@@ -39,9 +40,9 @@ class UserController extends Controller
      *     @OA\Response(response=401, description="Unauthorized"),
      * )
      */
-    public function index(User $users)
+    public function index(Request $request)
     {
-        $users = User::all()->where('role', '=', 'user');
+        $users = $this->userRepository->pushCriteria(new RequestCriteria($request))->all()->where('role', '=', 'user');
         return $this->jsonResponse('success', 'All users list', ['users' => $users], 200);
     }
 
