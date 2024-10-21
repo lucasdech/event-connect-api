@@ -182,11 +182,12 @@ class UserController extends Controller
             $inputs['password'] = Hash::make($inputs['password']);
         }
 
+        //upload de photo a deplacer dans un service
         if ($request->hasFile('profile_picture')) {
             if ($user->profile_picture) {
-                Storage::disk('public/profile_picture')->delete($user->profile_picture);
+                Storage::disk('public')->delete($user->profile_picture);
             }
-            $path = $request->file('profile_picture')->store('profile_pictures', 'public');
+            $path = $request->file('profile_picture')->store('profile_picture', 'public');
             $inputs['profile_picture'] = $path;
         }
 
