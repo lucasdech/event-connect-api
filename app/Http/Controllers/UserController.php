@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Criteria\SearchUserCriteria;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\User;
@@ -42,7 +43,13 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->pushCriteria(new RequestCriteria($request))->all()->where('role', '=', 'user');
+
+        $users = $this->userRepository
+            ->pushCriteria(new SearchUserCriteria())
+            ->pushCriteria(new RequestCriteria($request))
+            ->all()
+            ->where('role', '=', 'user');
+
         return $this->jsonResponse('success', 'All users list', ['users' => $users], 200);
     }
 
