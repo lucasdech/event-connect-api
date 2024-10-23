@@ -38,9 +38,13 @@ class SupabaseService
     }
 
     // Méthode pour récupérer les messages
-    public function getMessages()
+    public function getMessagesByEvent($event)
     {
-        $response = $this->httpClient->get('messages');
+        $response = $this->httpClient->get('messages', [
+            'query' => [
+                'event_id' => 'eq.' . $event
+            ]
+        ]);
         return json_decode($response->getBody()->getContents());
     }
 }
