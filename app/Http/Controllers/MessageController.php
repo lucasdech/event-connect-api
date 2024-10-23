@@ -147,25 +147,11 @@ class MessageController extends Controller
         return $this->jsonResponse('success', 'Details Message', ['message' => $message], 200);
     }
 
-    // public function showEventMessages(Event $event)
-    // {
-    //     $messages = Message::where('event_id', $event->id)->with('user')->get();
-        
-    //     $messagesSupabase = $this->supabaseService->getMessagesByEvent($event->id, $messages->user);
-    //     return $this->jsonResponse('success', 'Event Messages', ['messages' => $messages, 'SupabaseMessage' => $messagesSupabase], 200);
-    // }
-
     public function showEventMessages(Event $event)
     {
-        // Supposons que tu as un moyen d'obtenir l'ID de l'utilisateur actuel
-        $userId = auth('api')->user()->id; // Exemple avec Laravel Auth
-    
-        // Récupérer les messages locaux
         $messages = Message::where('event_id', $event->id)->with('user')->get();
-    
-        // Récupérer les messages de Supabase
-        $messagesSupabase = $this->supabaseService->getMessagesByEvent($event->id, $userId);
         
+        $messagesSupabase = $this->supabaseService->getMessagesByEvent($event->id, $messages->user);
         return $this->jsonResponse('success', 'Event Messages', ['messages' => $messages, 'SupabaseMessage' => $messagesSupabase], 200);
     }
 
