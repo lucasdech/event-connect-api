@@ -9,3 +9,4 @@ window.Echo = new Echo({
     cluster: import.meta.env.PUSHER_APP_CLUSTER,
     forceTLS: true
 });
+

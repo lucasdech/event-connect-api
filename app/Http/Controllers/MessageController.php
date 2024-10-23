@@ -8,8 +8,7 @@ use App\Models\Message;
 use App\Repositories\MessageRepository;
 use Illuminate\Http\Request;
 use App\Events\NewMessage;
-
-
+use App\Services\SupabaseService;
 
 class MessageController extends Controller
 {
@@ -21,7 +20,7 @@ class MessageController extends Controller
      * )
      */
     
-    public function __construct(private MessageRepository $messageRepository) {}
+    public function __construct(private MessageRepository $messageRepository, private SupabaseService $supabaseService) {}
 
     /**
      * @OA\Get(
@@ -77,9 +76,8 @@ class MessageController extends Controller
         $inputs['user_id'] = auth('api')->user()->id;
         $message = $this->messageRepository->create($inputs);
 
-        // event(new NewMessage($message));
-        NewMessage::dispatch($message);
-        
+        $this->supabaseService->addMessage($inputs);
+    
         return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
     }
     
