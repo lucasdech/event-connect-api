@@ -140,7 +140,7 @@ class UserController extends Controller
         // });
 
         $user = $this->userRepository->create($inputs);
-        $this->supabaseService->addUser([$inputs, 'profile_picture' => $inputs['profile_picture']]);
+        $this->supabaseService->addUser($inputs);
 
         if (!$token = auth('api')->attempt(['email' => $inputs['email'], 'password' => $password])) {
             return response()->json(['error' => 'Unauthorized'], 401);
