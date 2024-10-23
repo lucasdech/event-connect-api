@@ -25,28 +25,6 @@ class SupabaseService
         ]);
     }
 
-    public function addUser($request)
-    {
-        $response = $this->httpClient->post('users', [
-            'json' => [
-                $request
-            ]
-        ]);
-
-        return json_decode($response->getBody()->getContents());
-    }
-
-    public function getUserById($id)
-    {
-        $response = $this->httpClient->get('users', [
-            'query' => [
-                'id' => 'eq.' . $id
-            ]
-        ]);
-
-        return json_decode($response->getBody()->getContents());
-    }
-
     // Méthode pour ajouter un message à la table Supabase
     public function addMessage($request)
     {
