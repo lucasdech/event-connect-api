@@ -149,9 +149,9 @@ class MessageController extends Controller
 
     public function showEventMessages(Event $event)
     {
-        // $messages = Message::where('event_id', $event->id)->with('user')->get();
-        $messages = $this->supabaseService->getMessagesByEvent($event->id);
-        return $this->jsonResponse('success', 'Event Messages', ['messages' => $messages], 200);
+        $messages = Message::where('event_id', $event->id)->with('user')->get();
+        $messagesSupabase = $this->supabaseService->getMessagesByEvent($event->id);
+        return $this->jsonResponse('success', 'Event Messages', ['messages' => $messages, 'SupabaseMessage' => $messagesSupabase], 200);
     }
 
     /**
