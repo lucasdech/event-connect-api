@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\URL;
 use Prettus\Repository\Criteria\RequestCriteria;
+use App\Services\SupabaseService;
+
 
 class UserController extends Controller
 {
@@ -25,7 +27,7 @@ class UserController extends Controller
      * )
      */
 
-    public function __construct(private UserRepository $userRepository) {}
+    public function __construct(private UserRepository $userRepository, private SupabaseService $supabaseService) {}
 
     /**
      * @OA\Get(
@@ -138,6 +140,7 @@ class UserController extends Controller
         // });
 
         $user = $this->userRepository->create($inputs);
+        $this->supabaseService->addUser($inputs);
 
         if (!$token = auth('api')->attempt(['email' => $inputs['email'], 'password' => $password])) {
             return response()->json(['error' => 'Unauthorized'], 401);
