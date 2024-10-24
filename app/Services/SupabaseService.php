@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Repositories\UserRepository;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Http;
 
@@ -11,7 +12,7 @@ class SupabaseService
     protected $supabaseKey;
     protected $httpClient;
 
-    public function __construct()
+    public function __construct(private UserRepository $userRepository)
     {
         $this->supabaseUrl = env('SUPABASE_URL');
         $this->supabaseKey = env('SUPABASE_KEY');
@@ -28,10 +29,19 @@ class SupabaseService
     // Méthode pour ajouter un message à la table Supabase
     public function addMessage($request)
     {
+        $user_id = $request["user_id"];
+        $user = $this->userRepository->find($user_id);
+
+        $dataToSend = [
+            'user_id' => $request["user_id"],
+            'event_id' => $request["event_id"],
+            'content' => $request["content"],
+            'profile_picture' => $user->profile_picture,
+        ];
+
+      
         $response = $this->httpClient->post('messages', [
-            'json' => [
-                $request
-            ]
+            'json' => $dataToSend
         ]);
 
         return json_decode($response->getBody()->getContents());
