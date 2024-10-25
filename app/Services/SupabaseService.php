@@ -37,6 +37,7 @@ class SupabaseService
             'event_id' => $request["event_id"],
             'content' => $request["content"],
             'profile_picture' => $user->profile_picture,
+            'name' => $user->name,
         ];
 
       
