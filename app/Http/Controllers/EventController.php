@@ -111,6 +111,9 @@ class EventController extends Controller
     public function update(Request $request, Event $event)
     {
         $input = $request->all();
+        if (isset($input['password'])) {
+            $input['password'] = Hash::make($input['password']);
+        }
         $event = $this->eventRepository->update($input, $event->id);
         return $this->jsonResponse('success', 'Event Updated', ['event' => $event], 201);
     }
