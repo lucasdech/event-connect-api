@@ -9,6 +9,7 @@ use App\Repositories\MessageRepository;
 use Illuminate\Http\Request;
 use App\Events\NewMessage;
 use App\Services\SupabaseService;
+use Illuminate\Mail\Mailables\Content;
 
 class MessageController extends Controller
 {
@@ -19,7 +20,7 @@ class MessageController extends Controller
      *     description="Operations related to Messages"
      * )
      */
-    
+
     public function __construct(private MessageRepository $messageRepository, private SupabaseService $supabaseService) {}
 
     /**
@@ -72,15 +73,22 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
+
+        $ciphering = env('CIPHERING');
+        $options = env('OPTIONS');
+        $encryption_iv = env('ENCRYPTION_IV');
+        $encryption_key = env('ENCRYPTION_KEY');
+
         $inputs = $request->all();
         $inputs['user_id'] = auth('api')->user()->id;
+        $inputs['content'] = openssl_encrypt($inputs['content'],$ciphering,$encryption_key, $options, $encryption_iv);
         $message = $this->messageRepository->create($inputs);
 
         $this->supabaseService->addMessage($inputs);
-    
+
         return $this->jsonResponse('success', 'Created Message', ['message' => $message], 200);
     }
-    
+
 
     /**
      * @OA\Put(
@@ -150,8 +158,24 @@ class MessageController extends Controller
     public function showEventMessages(Event $event)
     {
         $messages = Message::where('event_id', $event->id)->with('user')->get();
+    
+        $ciphering = env('CIPHERING');
+        $options = env('OPTIONS');
+        $decryption_iv = env('ENCRYPTION_IV');
+        $decryption_key = env('ENCRYPTION_KEY');
+
+        foreach ($messages as $message) {
+            $message->content = openssl_decrypt($message->content, $ciphering, 
+                    $decryption_key, $options, $decryption_iv);
+        }
         
         $messagesSupabase = $this->supabaseService->getMessagesByEvent($event->id);
+
+        foreach ($messagesSupabase as $supabase_message) {
+            $supabase_message->content = openssl_decrypt($supabase_message->content, $ciphering, 
+                    $decryption_key, $options, $decryption_iv);
+        }
+
         return $this->jsonResponse('success', 'Event Messages', ['messages' => $messages, 'SupabaseMessage' => $messagesSupabase], 200);
     }
 
