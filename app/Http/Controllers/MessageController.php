@@ -74,14 +74,14 @@ class MessageController extends Controller
     public function store(Request $request)
     {
 
-        $ciphering = env('CIPHERING');
-        $options = env('OPTIONS');
-        $encryption_iv = env('ENCRYPTION_IV');
-        $encryption_key = env('ENCRYPTION_KEY');
+        // $ciphering = env('CIPHERING');
+        // $options = env('OPTIONS');
+        // $encryption_iv = env('ENCRYPTION_IV');
+        // $encryption_key = env('ENCRYPTION_KEY');
 
         $inputs = $request->all();
         $inputs['user_id'] = auth('api')->user()->id;
-        $inputs['content'] = openssl_encrypt($inputs['content'],$ciphering,$encryption_key, $options, $encryption_iv);
+        // $inputs['content'] = openssl_encrypt($inputs['content'],$ciphering,$encryption_key, $options, $encryption_iv);
         $message = $this->messageRepository->create($inputs);
 
         $this->supabaseService->addMessage($inputs);
