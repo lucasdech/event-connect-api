@@ -159,22 +159,22 @@ class MessageController extends Controller
     {
         $messages = Message::where('event_id', $event->id)->with('user')->get();
     
-        $ciphering = env('CIPHERING');
-        $options = env('OPTIONS');
-        $decryption_iv = env('ENCRYPTION_IV');
-        $decryption_key = env('ENCRYPTION_KEY');
+        // $ciphering = env('CIPHERING');
+        // $options = env('OPTIONS');
+        // $decryption_iv = env('ENCRYPTION_IV');
+        // $decryption_key = env('ENCRYPTION_KEY');
 
-        foreach ($messages as $message) {
-            $message->content = openssl_decrypt($message->content, $ciphering, 
-                    $decryption_key, $options, $decryption_iv);
-        }
+        // foreach ($messages as $message) {
+        //     $message->content = openssl_decrypt($message->content, $ciphering, 
+        //             $decryption_key, $options, $decryption_iv);
+        // }
         
         $messagesSupabase = $this->supabaseService->getMessagesByEvent($event->id);
 
-        foreach ($messagesSupabase as $supabase_message) {
-            $supabase_message->content = openssl_decrypt($supabase_message->content, $ciphering, 
-                    $decryption_key, $options, $decryption_iv);
-        }
+        // foreach ($messagesSupabase as $supabase_message) {
+        //     $supabase_message->content = openssl_decrypt($supabase_message->content, $ciphering, 
+        //             $decryption_key, $options, $decryption_iv);
+        // }
 
         return $this->jsonResponse('success', 'Event Messages', ['messages' => $messages, 'SupabaseMessage' => $messagesSupabase], 200);
     }
